@@ -1,0 +1,13 @@
+{
+  "name": "Jack's 30th Birthday Pub Crawl",
+  "short_name": "Pub Crawl",
+  "description": "Live pub crawl tracker",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#f59e0b",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
