@@ -29,6 +29,9 @@ export async function POST(req: Request) {
 
     // Clear drinks
     db.from('drinks').delete().eq('crawl_id', crawl_id),
+
+    // Clear joined participants — their names/headcount, so a reset is a genuine fresh start
+    db.from('participants').delete().eq('crawl_id', crawl_id),
   ])
 
   // Clear ratings for pubs in this crawl (no crawl_id FK on ratings, join via pubs)
