@@ -79,16 +79,16 @@ export default function RecapCard({ data, onClose }: Props) {
         </div>
 
         {/* Action bar */}
-        <div className="shrink-0 bg-white rounded-t-3xl px-5 pt-5 pb-8 space-y-3 mt-2">
-          <p className="text-center text-xs text-gray-400">Long-press the card to save, or tap Share</p>
+        <div className="shrink-0 bg-surface-raised rounded-t-3xl px-5 pt-5 pb-8 space-y-3 mt-2">
+          <p className="text-center text-xs text-parchment-dim">Long-press the card to save, or tap Share</p>
           <button
             onClick={share}
             disabled={sharing || !ready}
-            className="w-full bg-gradient-to-r from-violet-500 to-rose-500 text-white font-bold py-3.5 rounded-2xl text-base disabled:opacity-50"
+            className="w-full bg-gradient-to-r from-ember to-copper-dim text-cream font-bold py-3.5 rounded-2xl text-base disabled:opacity-50"
           >
             {sharing ? 'Sharing…' : 'Share recap 🎉'}
           </button>
-          <button onClick={onClose} className="w-full text-gray-400 text-sm py-2">
+          <button onClick={onClose} className="w-full text-parchment-dim text-sm py-2">
             Close
           </button>
         </div>
@@ -110,15 +110,15 @@ function drawCard(canvas: HTMLCanvasElement, d: RecapData) {
 
   // Background
   const bg = ctx.createLinearGradient(0, 0, W, H)
-  bg.addColorStop(0, '#0f0c29')
-  bg.addColorStop(0.5, '#1e1b4b')
-  bg.addColorStop(1, '#4c0519')
+  bg.addColorStop(0, '#16120e')
+  bg.addColorStop(0.5, '#221c16')
+  bg.addColorStop(1, '#3a1f12')
   ctx.fillStyle = bg
   ctx.fillRect(0, 0, W, H)
 
   // Subtle glow orbs
-  glow(ctx, W * 0.85, H * 0.12, 420, 'rgba(139, 92, 246, 0.18)')
-  glow(ctx, W * 0.15, H * 0.72, 320, 'rgba(225, 29, 72, 0.15)')
+  glow(ctx, W * 0.85, H * 0.12, 420, 'rgba(200, 121, 58, 0.20)')
+  glow(ctx, W * 0.15, H * 0.72, 320, 'rgba(122, 52, 32, 0.22)')
 
   // ── Header ──────────────────────────────────────────────────────────────────
   ctx.textAlign = 'center'
@@ -172,8 +172,8 @@ function drawCard(canvas: HTMLCanvasElement, d: RecapData) {
   if (d.participantName && d.myDrinks) {
     const psY = nextY + 20
     const grad = ctx.createLinearGradient(60, psY, W - 60, psY + 210)
-    grad.addColorStop(0, 'rgba(124,58,237,0.28)')
-    grad.addColorStop(1, 'rgba(225,29,72,0.28)')
+    grad.addColorStop(0, 'rgba(200,121,58,0.28)')
+    grad.addColorStop(1, 'rgba(122,52,32,0.28)')
     tile(ctx, 60, psY, W - 120, 210, grad)
 
     text(ctx, `${d.participantName.toUpperCase()}'S NIGHT`, W / 2, psY + 66, {

@@ -65,14 +65,14 @@ export default function StatusBar({ crawl, currentPub, nextPub, leaderLocations 
 
   if (crawl?.status === 'pending') {
     return (
-      <div className="rounded-2xl bg-white shadow-md border border-orange-100 overflow-hidden">
+      <div className="rounded-2xl bg-surface-raised shadow-md border border-copper/20 overflow-hidden">
         {startDate && countdownMs !== null ? (
           <div className="px-4 py-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-1">Crawl starts in</p>
-            <p className="font-black text-3xl text-gray-900 tabular-nums leading-tight">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-parchment-dim mb-1">Crawl starts in</p>
+            <p className="font-black text-3xl text-cream tabular-nums leading-tight">
               {countdownMs > 0 ? formatCountdown(countdownMs) : '🍺 Let\'s go!'}
             </p>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-parchment-dim mt-1">
               {startDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })} ·{' '}
               {startDate.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}
             </p>
@@ -80,8 +80,8 @@ export default function StatusBar({ crawl, currentPub, nextPub, leaderLocations 
         ) : (
           <div className="px-4 py-5 text-center">
             <div className="text-2xl mb-1">🎉</div>
-            <p className="font-black text-lg text-gray-900">Get ready!</p>
-            <p className="text-gray-500 text-sm">The crawl hasn't started yet</p>
+            <p className="font-black text-lg text-cream">Get ready!</p>
+            <p className="text-parchment text-sm">The crawl hasn't started yet</p>
           </div>
         )}
       </div>
@@ -89,19 +89,19 @@ export default function StatusBar({ crawl, currentPub, nextPub, leaderLocations 
   }
 
   return (
-    <div className="rounded-2xl overflow-hidden shadow-md border border-gray-100">
+    <div className="rounded-2xl overflow-hidden shadow-md border border-cream/10">
       {currentPub && (
-        <div className="bg-gradient-to-r from-orange-500 to-rose-500 px-4 py-4 text-white">
+        <div className="bg-gradient-to-r from-copper to-ember px-4 py-4 text-cream">
           <div className="flex items-center gap-2 mb-1">
             <span className="relative flex h-2 w-2 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-surface-raised opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-surface-raised" />
             </span>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-100">Here now</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cream/70">Here now</p>
           </div>
-          <p className="font-black text-2xl leading-tight">{currentPub.name}</p>
+          <p className="font-display font-semibold text-2xl leading-tight">{currentPub.name}</p>
           {currentPub.actual_arrival_at && (
-            <p className="text-xs text-white/60 mt-1">
+            <p className="text-xs text-cream/60 mt-1">
               Arrived {formatETA(new Date(currentPub.actual_arrival_at))}
             </p>
           )}
@@ -109,16 +109,16 @@ export default function StatusBar({ crawl, currentPub, nextPub, leaderLocations 
       )}
 
       {nextPub && (
-        <div className="bg-white px-4 py-3 flex items-center justify-between gap-3">
+        <div className="bg-surface-raised px-4 py-3 flex items-center justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400">Next stop</p>
-            <p className="font-bold text-gray-900 text-lg leading-tight truncate">{nextPub.name}</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-parchment-dim">Next stop</p>
+            <p className="font-display font-semibold text-cream text-lg leading-tight truncate">{nextPub.name}</p>
           </div>
 
           <div className="shrink-0 flex flex-col items-end gap-1">
             {/* Live ETA — shows when leaders are actively sharing location */}
             {liveEtaDate && liveCountdownMs !== null && (
-              <div className="bg-orange-500 text-white font-bold text-sm px-3 py-1.5 rounded-full flex items-center gap-1.5 whitespace-nowrap">
+              <div className="bg-copper text-cream font-bold text-sm px-3 py-1.5 rounded-full flex items-center gap-1.5 whitespace-nowrap">
                 <Navigation className="w-3.5 h-3.5" />
                 {liveCountdownMs > 0
                   ? `~${Math.round(liveCountdownMs / 60000)} min`
@@ -129,7 +129,7 @@ export default function StatusBar({ crawl, currentPub, nextPub, leaderLocations 
 
             {/* Planned/scheduled time */}
             {plannedEta && (
-              <div className={`flex items-center gap-1 whitespace-nowrap ${liveEtaDate ? 'text-xs text-gray-400' : 'bg-orange-100 text-orange-700 font-bold text-sm px-3 py-1.5 rounded-full'}`}>
+              <div className={`flex items-center gap-1 whitespace-nowrap ${liveEtaDate ? 'text-xs text-parchment-dim' : 'bg-copper/15 text-copper-bright font-bold text-sm px-3 py-1.5 rounded-full'}`}>
                 {!liveEtaDate && <Clock className="w-3.5 h-3.5" />}
                 {liveEtaDate
                   ? `Planned ${formatETA(plannedEta)}`
@@ -144,8 +144,8 @@ export default function StatusBar({ crawl, currentPub, nextPub, leaderLocations 
       )}
 
       {!nextPub && currentPub?.status === 'current' && (
-        <div className="bg-white px-4 py-3 border-t border-gray-100">
-          <p className="text-sm text-gray-500 text-center">🏁 Last stop on the crawl!</p>
+        <div className="bg-surface-raised px-4 py-3 border-t border-cream/10">
+          <p className="text-sm text-parchment text-center">🏁 Last stop on the crawl!</p>
         </div>
       )}
     </div>

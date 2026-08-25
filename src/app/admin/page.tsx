@@ -52,7 +52,7 @@ function QRModal({ url, title = 'QR Code', onClose }: { url: string; title?: str
         </DialogHeader>
         <div className="flex flex-col items-center gap-4 py-2">
           <img src={qrUrl} alt={title} className="w-64 h-64 border rounded-lg" />
-          <p className="text-xs text-gray-500 text-center break-all">{url}</p>
+          <p className="text-xs text-parchment text-center break-all">{url}</p>
           <Button onClick={() => navigator.clipboard.writeText(url)} variant="outline" size="sm">
             Copy link
           </Button>
@@ -129,14 +129,14 @@ function PubForm({ crawlId, onAdd, adminKey }: { crawlId: string; onAdd: () => v
   }
 
   return (
-    <form onSubmit={submit} className="space-y-3 p-4 bg-amber-50 rounded-xl border border-amber-200">
-      <p className="font-semibold text-sm text-amber-900">Add pub</p>
+    <form onSubmit={submit} className="space-y-3 p-4 bg-copper/10 rounded-xl border border-copper/25">
+      <p className="font-semibold text-sm text-cream">Add pub</p>
 
       {/* Search */}
       <div className="relative">
         <Label className="text-xs">Search for a pub</Label>
         <div className="relative">
-          <Search className="absolute left-2.5 top-2.5 w-3.5 h-3.5 text-gray-400" />
+          <Search className="absolute left-2.5 top-2.5 w-3.5 h-3.5 text-parchment-dim" />
           <Input
             value={query}
             onChange={e => setQuery(e.target.value)}
@@ -145,15 +145,15 @@ function PubForm({ crawlId, onAdd, adminKey }: { crawlId: string; onAdd: () => v
             placeholder="The Anchor, Richmond..."
             className="pl-8 pr-8"
           />
-          {searching && <div className="absolute right-2.5 top-2.5 w-3.5 h-3.5 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />}
+          {searching && <div className="absolute right-2.5 top-2.5 w-3.5 h-3.5 border-2 border-copper/40 border-t-transparent rounded-full animate-spin" />}
         </div>
         {showDropdown && results.length > 0 && (
-          <div className="absolute z-50 top-full left-0 right-0 bg-white border border-gray-200 rounded-xl shadow-lg mt-1 overflow-hidden">
+          <div className="absolute z-50 top-full left-0 right-0 bg-surface-raised border border-cream/15 rounded-xl shadow-lg mt-1 overflow-hidden">
             {results.map((r: any, i: number) => (
               <button
                 key={i}
                 type="button"
-                className="w-full text-left px-3 py-2.5 hover:bg-amber-50 border-b border-gray-100 last:border-0"
+                className="w-full text-left px-3 py-2.5 hover:bg-copper/10 border-b border-cream/10 last:border-0"
                 onMouseDown={() => {
                   setName(r.name || r.display_name.split(',')[0])
                   const parts = r.display_name.split(',')
@@ -164,8 +164,8 @@ function PubForm({ crawlId, onAdd, adminKey }: { crawlId: string; onAdd: () => v
                   setShowDropdown(false)
                 }}
               >
-                <p className="text-xs font-semibold text-gray-800 truncate">{r.name || r.display_name.split(',')[0]}</p>
-                <p className="text-[10px] text-gray-500 truncate">{r.display_name}</p>
+                <p className="text-xs font-semibold text-cream truncate">{r.name || r.display_name.split(',')[0]}</p>
+                <p className="text-[10px] text-parchment truncate">{r.display_name}</p>
               </button>
             ))}
           </div>
@@ -194,7 +194,7 @@ function PubForm({ crawlId, onAdd, adminKey }: { crawlId: string; onAdd: () => v
           <Input value={dwell} onChange={e => setDwell(e.target.value)} type="number" min="5" max="240" />
         </div>
       </div>
-      <Button type="submit" disabled={saving} className="w-full bg-amber-500 hover:bg-amber-600">
+      <Button type="submit" disabled={saving} className="w-full bg-copper hover:bg-copper-bright">
         <Plus className="w-4 h-4 mr-1" />{saving ? 'Adding…' : 'Add pub'}
       </Button>
     </form>
@@ -268,7 +268,7 @@ function EditPubModal({ pub, adminKey, onClose, onSaved }: {
             <Label className="text-xs">Dwell time (minutes)</Label>
             <Input value={dwell} onChange={e => setDwell(e.target.value)} type="number" min="5" max="240" />
           </div>
-          <Button onClick={save} disabled={saving || !name.trim()} className="w-full bg-amber-500 hover:bg-amber-600">
+          <Button onClick={save} disabled={saving || !name.trim()} className="w-full bg-copper hover:bg-copper-bright">
             {saving ? 'Saving…' : 'Save changes'}
           </Button>
         </div>
@@ -312,7 +312,7 @@ function WalkingTimeInput({ pubId, initialValue, adminKey, onSaved }: {
   }
 
   return (
-    <div className="mt-2 flex items-center gap-1.5 text-xs text-gray-500">
+    <div className="mt-2 flex items-center gap-1.5 text-xs text-parchment">
       <Footprints className="w-3 h-3 shrink-0" />
       <span>Walk to next:</span>
       <input
@@ -323,11 +323,11 @@ function WalkingTimeInput({ pubId, initialValue, adminKey, onSaved }: {
         onChange={e => { setVal(e.target.value); setStatus('idle') }}
         onBlur={save}
         onKeyDown={e => { if (e.key === 'Enter') { e.currentTarget.blur(); save() } }}
-        className="w-14 text-xs border border-gray-200 rounded px-1.5 py-0.5 text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-300"
+        className="w-14 text-xs border border-cream/15 rounded px-1.5 py-0.5 text-cream focus:outline-none focus:ring-1 focus:ring-copper/40"
       />
       <span>min</span>
-      {status === 'saving' && <span className="text-gray-400">…</span>}
-      {status === 'saved' && <span className="text-green-500">✓</span>}
+      {status === 'saving' && <span className="text-parchment-dim">…</span>}
+      {status === 'saved' && <span className="text-sage">✓</span>}
       {status === 'error' && <span className="text-red-500" title="Save failed — check the column exists in Supabase">✗</span>}
     </div>
   )
@@ -698,17 +698,17 @@ export default function AdminPage() {
   }
 
   if (!ready) return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Beer className="w-8 h-8 text-amber-500 animate-bounce" />
+    <div className="min-h-screen flex items-center justify-center bg-ink">
+      <Beer className="w-8 h-8 text-copper-bright animate-bounce" />
     </div>
   )
 
   if (!adminKey) return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6 text-center">
+    <div className="min-h-screen flex items-center justify-center bg-ink px-6 text-center">
       <div>
-        <Beer className="w-10 h-10 text-amber-500 mx-auto mb-4" />
-        <p className="font-semibold text-gray-700">Admin access required</p>
-        <p className="text-sm text-gray-500 mt-1">Open the admin link you were given.</p>
+        <Beer className="w-10 h-10 text-copper-bright mx-auto mb-4" />
+        <p className="font-semibold text-cream">Admin access required</p>
+        <p className="text-sm text-parchment mt-1">Open the admin link you were given.</p>
       </div>
     </div>
   )
@@ -716,15 +716,15 @@ export default function AdminPage() {
   const joinUrl = crawl ? `${baseUrl()}/join/${crawl.join_token}` : ''
 
   const statusColors: Record<string, string> = {
-    active: 'bg-green-500 text-white',
-    completed: 'bg-gray-400 text-white',
-    pending: 'bg-amber-300 text-amber-900',
+    active: 'bg-sage text-cream',
+    completed: 'bg-parchment-dim text-cream',
+    pending: 'bg-copper/35 text-cream',
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 max-w-lg mx-auto pb-10">
+    <div className="min-h-screen bg-ink max-w-lg mx-auto pb-10">
       {/* Header */}
-      <header className="bg-gradient-to-b from-amber-700 to-amber-600 text-white px-4 pt-5 pb-4 sticky top-0 z-10 shadow-md">
+      <header className="bg-gradient-to-b from-ember to-copper-bright text-cream px-4 pt-5 pb-4 sticky top-0 z-10 shadow-md">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-2.5">
             <Beer className="w-6 h-6 shrink-0 mt-0.5" />
@@ -734,10 +734,10 @@ export default function AdminPage() {
               </span>
               {crawl && (
                 <div className="flex items-center gap-2 mt-1">
-                  <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${statusColors[crawl.status] ?? 'bg-amber-300 text-amber-900'}`}>
+                  <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${statusColors[crawl.status] ?? 'bg-copper/35 text-cream'}`}>
                     {crawl.status.charAt(0).toUpperCase() + crawl.status.slice(1)}
                   </span>
-                  <span className="text-amber-200 text-xs">
+                  <span className="text-cream/70 text-xs">
                     {new Date(crawl.date).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
                   </span>
                 </div>
@@ -745,7 +745,7 @@ export default function AdminPage() {
             </div>
           </div>
           <a href="/">
-            <Button size="sm" variant="ghost" className="text-amber-200 hover:bg-amber-700 text-xs mt-0.5">View app</Button>
+            <Button size="sm" variant="ghost" className="text-cream/70 hover:bg-copper-dim text-xs mt-0.5">View app</Button>
           </a>
         </div>
       </header>
@@ -765,7 +765,7 @@ export default function AdminPage() {
                 <Label className="text-xs">Date</Label>
                 <Input type="date" value={crawlDate} onChange={e => setCrawlDate(e.target.value)} />
               </div>
-              <Button onClick={createCrawl} className="w-full bg-amber-500 hover:bg-amber-600">
+              <Button onClick={createCrawl} className="w-full bg-copper hover:bg-copper-bright">
                 Create crawl
               </Button>
             </CardContent>
@@ -777,8 +777,8 @@ export default function AdminPage() {
               <CardContent className="pt-4 space-y-4">
                 {/* Event label row */}
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-gray-400 shrink-0" />
-                  <Label className="text-xs text-gray-600 shrink-0">Event label</Label>
+                  <Sparkles className="w-4 h-4 text-parchment-dim shrink-0" />
+                  <Label className="text-xs text-parchment shrink-0">Event label</Label>
                   <Input
                     value={eventLabel}
                     onChange={e => setEventLabel(e.target.value)}
@@ -805,8 +805,8 @@ export default function AdminPage() {
 
                 {/* Donation link row */}
                 <div className="flex items-center gap-2">
-                  <Heart className="w-4 h-4 text-gray-400 shrink-0" />
-                  <Label className="text-xs text-gray-600 shrink-0">Donation link</Label>
+                  <Heart className="w-4 h-4 text-parchment-dim shrink-0" />
+                  <Label className="text-xs text-parchment shrink-0">Donation link</Label>
                   <Input
                     value={donationUrl}
                     onChange={e => setDonationUrl(e.target.value)}
@@ -831,13 +831,13 @@ export default function AdminPage() {
                   </Button>
                 </div>
                 <div className="flex items-center justify-between -mt-2 ml-6">
-                  <p className="text-[10px] text-gray-400">
+                  <p className="text-[10px] text-parchment-dim">
                     Shown in the &quot;instead of buying Jack a pint&quot; modal, once someone&apos;s checked into their 3rd pub.
                   </p>
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="text-[10px] h-auto py-0.5 px-2 text-violet-600 hover:text-violet-700 hover:bg-violet-50 shrink-0"
+                    className="text-[10px] h-auto py-0.5 px-2 text-copper-bright hover:text-copper-bright hover:bg-copper/10 shrink-0"
                     onClick={() => setPreviewDonation(true)}
                   >
                     Preview
@@ -846,8 +846,8 @@ export default function AdminPage() {
 
                 {/* Date row */}
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-gray-400 shrink-0" />
-                  <Label className="text-xs text-gray-600 shrink-0">Date</Label>
+                  <Clock className="w-4 h-4 text-parchment-dim shrink-0" />
+                  <Label className="text-xs text-parchment shrink-0">Date</Label>
                   <Input
                     type="date"
                     value={crawlDate}
@@ -874,8 +874,8 @@ export default function AdminPage() {
 
                 {/* Start time row */}
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-gray-400 shrink-0" />
-                  <Label className="text-xs text-gray-600 shrink-0">Start time</Label>
+                  <Clock className="w-4 h-4 text-parchment-dim shrink-0" />
+                  <Label className="text-xs text-parchment shrink-0">Start time</Label>
                   <Input
                     type="time"
                     value={crawlStartTime}
@@ -923,7 +923,7 @@ export default function AdminPage() {
                     <Button
                       size="sm"
                       onClick={startCrawl}
-                      className="col-span-2 bg-green-500 hover:bg-green-600 text-white justify-center gap-1.5"
+                      className="col-span-2 bg-sage hover:bg-sage-dim text-cream justify-center gap-1.5"
                     >
                       Start crawl
                     </Button>
@@ -932,7 +932,7 @@ export default function AdminPage() {
                     <Button
                       size="sm"
                       onClick={() => updateCrawlStatus('completed')}
-                      className="col-span-2 bg-red-500 hover:bg-red-600 text-white justify-center gap-1.5"
+                      className="col-span-2 bg-red-500 hover:bg-red-600 text-cream justify-center gap-1.5"
                     >
                       End crawl
                     </Button>
@@ -941,7 +941,7 @@ export default function AdminPage() {
                     size="sm"
                     variant="outline"
                     onClick={resetCrawl}
-                    className="col-span-2 text-gray-500 border-gray-200 hover:bg-gray-50 justify-center gap-1.5"
+                    className="col-span-2 text-parchment border-cream/15 hover:bg-ink justify-center gap-1.5"
                   >
                     Reset crawl
                   </Button>
@@ -960,9 +960,9 @@ export default function AdminPage() {
                 '🚨 Group photo time!',
               ].filter(Boolean) as string[]
               return (
-                <Card className="border-orange-200 bg-orange-50">
+                <Card className="border-copper/25 bg-copper/10">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-base flex items-center gap-2 text-orange-700">
+                    <CardTitle className="text-base flex items-center gap-2 text-copper-bright">
                       <Megaphone className="w-4 h-4" /> Broadcast to everyone
                     </CardTitle>
                   </CardHeader>
@@ -973,7 +973,7 @@ export default function AdminPage() {
                           key={p}
                           onClick={() => sendBroadcast(p)}
                           disabled={broadcastStatus === 'sending'}
-                          className="text-xs bg-white border border-orange-200 text-orange-700 font-medium px-3 py-1.5 rounded-full hover:bg-orange-100 transition-colors disabled:opacity-50 text-left"
+                          className="text-xs bg-surface-raised border border-copper/25 text-copper-bright font-medium px-3 py-1.5 rounded-full hover:bg-copper/15 transition-colors disabled:opacity-50 text-left"
                         >
                           {p}
                         </button>
@@ -985,12 +985,12 @@ export default function AdminPage() {
                         onChange={e => setBroadcastMsg(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && sendBroadcast(broadcastMsg)}
                         placeholder="Custom message…"
-                        className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                        className="flex-1 text-sm border border-cream/15 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-copper/40"
                       />
                       <Button
                         onClick={() => sendBroadcast(broadcastMsg)}
                         disabled={!broadcastMsg.trim() || broadcastStatus === 'sending'}
-                        className="bg-orange-500 hover:bg-orange-600 text-white shrink-0"
+                        className="bg-copper hover:bg-copper-bright text-cream shrink-0"
                         size="sm"
                       >
                         {broadcastStatus === 'sending' ? '…' : broadcastStatus === 'sent' ? '✓ Sent!' : broadcastStatus === 'error' ? '✗' : 'Send'}
@@ -1010,17 +1010,17 @@ export default function AdminPage() {
               </CardHeader>
               <CardContent className="space-y-3">
                 {leaders.map(leader => (
-                  <div key={leader.id} className="border-l-4 border-amber-400 bg-gray-50 rounded-r-lg overflow-hidden">
+                  <div key={leader.id} className="border-l-4 border-copper/40 bg-ink rounded-r-lg overflow-hidden">
                     <div className="flex items-center gap-3 px-3 py-2.5">
                       <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-sm text-gray-800">{leader.name}</p>
-                        <p className="text-xs text-gray-400 truncate font-mono">/leader/{leader.token}</p>
+                        <p className="font-semibold text-sm text-cream">{leader.name}</p>
+                        <p className="text-xs text-parchment-dim truncate font-mono">/leader/{leader.token}</p>
                       </div>
                       <div className="flex items-center gap-1 shrink-0">
                         <Button
                           size="sm"
                           variant="ghost"
-                          className="h-8 px-2 text-xs text-gray-500 hover:bg-gray-100 gap-1"
+                          className="h-8 px-2 text-xs text-parchment hover:bg-cream/8 gap-1"
                           onClick={() => setLeaderQrUrl(leaderUrl(leader))}
                           title="Show QR code"
                         >
@@ -1030,19 +1030,19 @@ export default function AdminPage() {
                         <Button
                           size="sm"
                           variant="ghost"
-                          className="h-8 px-2 text-xs text-gray-500 hover:bg-gray-100 gap-1"
+                          className="h-8 px-2 text-xs text-parchment hover:bg-cream/8 gap-1"
                           onClick={() => copyLeaderUrl(leader)}
                           title="Copy leader link"
                         >
                           {copiedId === leader.id
-                            ? <><Check className="w-3.5 h-3.5 text-green-500" /><span className="hidden sm:inline text-green-600">Copied</span></>
+                            ? <><Check className="w-3.5 h-3.5 text-sage" /><span className="hidden sm:inline text-sage">Copied</span></>
                             : <><Copy className="w-3.5 h-3.5" /><span className="hidden sm:inline">Copy</span></>
                           }
                         </Button>
                         <Button
                           size="sm"
                           variant="ghost"
-                          className="h-8 px-2 text-xs text-red-400 hover:bg-red-50 gap-1"
+                          className="h-8 px-2 text-xs text-red-400 hover:bg-red-500/10 gap-1"
                           onClick={() => deleteLeader(leader.id)}
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -1052,19 +1052,19 @@ export default function AdminPage() {
                     </div>
                     {expandedLeaderId === leader.id && (
                       <div className="px-3 pb-2.5">
-                        <p className="text-[10px] text-amber-700 font-medium mb-1">Clipboard blocked — copy this link manually:</p>
+                        <p className="text-[10px] text-copper-bright font-medium mb-1">Clipboard blocked — copy this link manually:</p>
                         <input
                           readOnly
                           value={leaderUrl(leader)}
                           onFocus={e => e.target.select()}
-                          className="w-full text-xs bg-white border border-amber-200 rounded px-2 py-1.5 font-mono text-gray-700 select-all"
+                          className="w-full text-xs bg-surface-raised border border-copper/25 rounded px-2 py-1.5 font-mono text-cream select-all"
                         />
                       </div>
                     )}
                   </div>
                 ))}
                 {leaders.length === 0 && (
-                  <p className="text-xs text-gray-400 text-center py-1">Add people who can mark pubs and share their location</p>
+                  <p className="text-xs text-parchment-dim text-center py-1">Add people who can mark pubs and share their location</p>
                 )}
                 <form onSubmit={addLeader} className="flex gap-2 pt-1">
                   <Input
@@ -1073,7 +1073,7 @@ export default function AdminPage() {
                     placeholder="Leader name"
                     className="flex-1"
                   />
-                  <Button type="submit" size="sm" className="bg-amber-500 hover:bg-amber-600 shrink-0 px-3">
+                  <Button type="submit" size="sm" className="bg-copper hover:bg-copper-bright shrink-0 px-3">
                     <Plus className="w-4 h-4" />
                   </Button>
                 </form>
@@ -1083,27 +1083,27 @@ export default function AdminPage() {
             {/* Pub list */}
             <div className="space-y-2">
               <div className="flex items-center justify-between px-1">
-                <p className="font-semibold text-sm text-gray-700">Pubs ({pubs.length})</p>
+                <p className="font-semibold text-sm text-cream">Pubs ({pubs.length})</p>
                 <Button
                   size="sm"
                   variant="ghost"
                   onClick={recalculateSchedule}
-                  className="text-xs text-blue-600 hover:text-blue-800 hover:bg-blue-50 gap-1.5 h-7 px-2"
+                  className="text-xs text-copper-bright hover:text-cream hover:bg-copper/8 gap-1.5 h-7 px-2"
                 >
                   <RefreshCw className="w-3 h-3" /> Recalculate schedule
                 </Button>
               </div>
 
               {lastAction && (
-                <div className="flex items-center justify-between gap-2 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
-                  <p className="text-xs text-amber-800">
+                <div className="flex items-center justify-between gap-2 bg-copper/10 border border-copper/25 rounded-xl px-3 py-2">
+                  <p className="text-xs text-copper-bright">
                     Marked <span className="font-semibold">{lastAction.pubName}</span> as {lastAction.type}
                     {lastAction.autoDeparted ? ' (and auto-departed the previous pub)' : ''}
                   </p>
                   <Button
                     size="sm"
                     variant="outline"
-                    className="h-7 px-2.5 text-xs text-amber-800 border-amber-300 bg-white hover:bg-amber-100 shrink-0"
+                    className="h-7 px-2.5 text-xs text-copper-bright border-copper/30 bg-surface-raised hover:bg-copper/15 shrink-0"
                     onClick={undoLastAction}
                   >
                     Undo
@@ -1122,7 +1122,7 @@ export default function AdminPage() {
                     {(dragHandleProps) => (
                   <Card
                     className={`overflow-hidden transition-all ${
-                      isCurrent ? 'ring-2 ring-green-400 shadow-md' :
+                      isCurrent ? 'ring-2 ring-sage/40 shadow-md' :
                       isVisited ? 'opacity-60' : ''
                     }`}
                   >
@@ -1130,16 +1130,16 @@ export default function AdminPage() {
                       {/* Coloured left stripe */}
                       <div className="flex">
                         <div className={`w-1 shrink-0 ${
-                          isCurrent ? 'bg-green-400' :
-                          isVisited ? 'bg-gray-200' :
-                          'bg-blue-200'
+                          isCurrent ? 'bg-sage' :
+                          isVisited ? 'bg-cream/12' :
+                          'bg-copper/20'
                         }`} />
                         <div className="flex-1 p-3">
                           <div className="flex items-start gap-2">
                             {isDraggable ? (
                               <button
                                 {...dragHandleProps}
-                                className="text-gray-300 hover:text-gray-500 cursor-grab active:cursor-grabbing mt-1 shrink-0 -ml-1 p-0.5"
+                                className="text-parchment-dim hover:text-parchment cursor-grab active:cursor-grabbing mt-1 shrink-0 -ml-1 p-0.5"
                                 aria-label="Drag to reorder"
                                 tabIndex={-1}
                               >
@@ -1149,15 +1149,15 @@ export default function AdminPage() {
                               <div className="w-4 shrink-0" />
                             )}
                             <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${
-                              isVisited ? 'bg-gray-100 text-gray-400' :
-                              isCurrent ? 'bg-green-100 text-green-700' :
-                              'bg-blue-50 text-blue-600'
+                              isVisited ? 'bg-cream/8 text-parchment-dim' :
+                              isCurrent ? 'bg-sage/15 text-sage-dim' :
+                              'bg-copper/8 text-copper-bright'
                             }`}>{i + 1}</div>
                             <div className="flex-1 min-w-0">
-                              <p className={`font-semibold text-sm ${isVisited ? 'line-through text-gray-400' : 'text-gray-800'}`}>
+                              <p className={`font-semibold text-sm ${isVisited ? 'line-through text-parchment-dim' : 'text-cream'}`}>
                                 {pub.name}
                               </p>
-                              <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-gray-500 mt-0.5">
+                              <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-parchment mt-0.5">
                                 {pub.address && (
                                   <span className="flex items-center gap-0.5 truncate">
                                     <MapPin className="w-3 h-3 shrink-0" />{pub.address}
@@ -1171,7 +1171,7 @@ export default function AdminPage() {
                             <Button
                               size="sm"
                               variant="ghost"
-                              className="h-7 w-7 p-0 text-gray-400 hover:bg-gray-50 shrink-0"
+                              className="h-7 w-7 p-0 text-parchment-dim hover:bg-ink shrink-0"
                               onClick={() => setEditingPub(pub)}
                             >
                               <Pencil className="w-3.5 h-3.5" />
@@ -1179,7 +1179,7 @@ export default function AdminPage() {
                             <Button
                               size="sm"
                               variant="ghost"
-                              className="h-7 w-7 p-0 text-red-400 hover:bg-red-50 shrink-0"
+                              className="h-7 w-7 p-0 text-red-400 hover:bg-red-500/10 shrink-0"
                               onClick={() => deletePub(pub.id)}
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -1208,8 +1208,8 @@ export default function AdminPage() {
 
                           {/* Status badge for visited */}
                           {isVisited && (
-                            <div className="mt-2 flex items-center gap-1.5 text-xs text-gray-400">
-                              <CheckCircle className="w-3.5 h-3.5 text-gray-300" />
+                            <div className="mt-2 flex items-center gap-1.5 text-xs text-parchment-dim">
+                              <CheckCircle className="w-3.5 h-3.5 text-parchment-dim" />
                               <span>Visited</span>
                             </div>
                           )}
@@ -1220,7 +1220,7 @@ export default function AdminPage() {
                               {pub.status === 'upcoming' && (
                                 <Button
                                   size="sm"
-                                  className="flex-1 bg-green-500 hover:bg-green-600 text-white gap-1.5 rounded-full"
+                                  className="flex-1 bg-sage hover:bg-sage-dim text-cream gap-1.5 rounded-full"
                                   onClick={() => markArrived(pub)}
                                 >
                                   <CheckCircle className="w-4 h-4" /> Mark arrived
@@ -1230,7 +1230,7 @@ export default function AdminPage() {
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  className="flex-1 text-blue-600 border-blue-200 hover:bg-blue-50 gap-1.5 rounded-full"
+                                  className="flex-1 text-copper-bright border-copper/25 hover:bg-copper/8 gap-1.5 rounded-full"
                                   onClick={() => markDeparted(pub)}
                                 >
                                   <ArrowRight className="w-4 h-4" /> Mark departed
@@ -1262,7 +1262,7 @@ export default function AdminPage() {
                 {!showAddPub ? (
                   <Button
                     variant="outline"
-                    className="w-full gap-2 border-dashed border-gray-300 text-gray-500 hover:border-amber-400 hover:text-amber-700 hover:bg-amber-50"
+                    className="w-full gap-2 border-dashed border-cream/20 text-parchment hover:border-copper/40 hover:text-copper-bright hover:bg-copper/10"
                     onClick={() => setShowAddPub(true)}
                   >
                     <Plus className="w-4 h-4" /> Add pub
@@ -1272,7 +1272,7 @@ export default function AdminPage() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-xs text-gray-400 gap-1 px-1"
+                      className="text-xs text-parchment-dim gap-1 px-1"
                       onClick={() => setShowAddPub(false)}
                     >
                       <ChevronUp className="w-3.5 h-3.5" /> Hide form

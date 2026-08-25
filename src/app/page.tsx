@@ -492,23 +492,23 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-orange-500 to-rose-500">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-copper to-ember">
         <div className="text-4xl mb-4">🎉</div>
-        <Beer className="w-8 h-8 text-white animate-bounce" />
-        <p className="text-white/80 text-sm font-medium mt-3 tracking-wide">Loading the crawl…</p>
+        <Beer className="w-8 h-8 text-cream animate-bounce" />
+        <p className="text-cream/80 text-sm font-medium mt-3 tracking-wide">Loading the crawl…</p>
       </div>
     )
   }
 
   if (loadError) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-orange-500 to-rose-500 px-6 text-center">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-copper to-ember px-6 text-center">
         <div className="text-4xl mb-4">📡</div>
-        <p className="text-white font-bold text-lg">Can't reach the server</p>
-        <p className="text-white/70 text-sm mt-2">Make sure your phone is on the same WiFi as the host Mac, then tap below.</p>
+        <p className="text-cream font-bold text-lg">Can't reach the server</p>
+        <p className="text-cream/70 text-sm mt-2">Make sure your phone is on the same WiFi as the host Mac, then tap below.</p>
         <button
           onClick={() => { setLoadError(false); setLoading(true); load() }}
-          className="mt-6 bg-white text-orange-600 font-bold px-6 py-3 rounded-full text-sm"
+          className="mt-6 bg-surface-raised text-copper-bright font-bold px-6 py-3 rounded-full text-sm"
         >
           Try again
         </button>
@@ -517,32 +517,32 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col w-full">
+    <div className="min-h-screen bg-ink flex flex-col w-full">
       {isOffline && (
-        <div className="sticky top-0 z-40 bg-amber-500 text-white text-center text-xs font-semibold px-4 py-2">
+        <div className="sticky top-0 z-40 bg-copper text-cream text-center text-xs font-semibold px-4 py-2">
           You're offline — showing last known info
         </div>
       )}
       <div className="sticky top-0 z-30">
-        <header className="bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-md">
+        <header className="bg-gradient-to-r from-copper to-ember text-cream shadow-md">
           <div className="flex items-center justify-between px-4 pt-3 pb-1">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">🎉 {crawl?.subtitle || "Jack's 30th Birthday"}</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cream/70">🎉 {crawl?.subtitle || "Jack's 30th Birthday"}</p>
             <div className="flex items-center gap-1">
               {isAdmin ? (
                 <a href="/admin">
-                  <Button size="sm" variant="ghost" className="text-white hover:bg-white/15 p-1.5 -mr-1 flex items-center gap-1">
+                  <Button size="sm" variant="ghost" className="text-cream hover:bg-cream/15 p-1.5 -mr-1 flex items-center gap-1">
                     <Settings className="w-4 h-4" />
                     <span className="text-xs font-semibold">Admin</span>
                   </Button>
                 </a>
               ) : viewMode === 'leader' ? (
                 <a href="/leader">
-                  <Button size="sm" variant="ghost" className="text-white/60 hover:bg-white/15 hover:text-white p-1.5 -mr-1">
+                  <Button size="sm" variant="ghost" className="text-cream/60 hover:bg-cream/15 hover:text-cream p-1.5 -mr-1">
                     <Settings className="w-4 h-4" />
                   </Button>
                 </a>
               ) : (
-                <Button size="sm" variant="ghost" onClick={handleShare} className="text-white/70 hover:bg-white/15 hover:text-white p-1.5 -mr-1 flex items-center gap-1">
+                <Button size="sm" variant="ghost" onClick={handleShare} className="text-cream/70 hover:bg-cream/15 hover:text-cream p-1.5 -mr-1 flex items-center gap-1">
                   {shareCopied ? <span className="text-xs font-semibold">Copied!</span> : <><Share2 className="w-4 h-4" /><span className="text-xs font-semibold">Share</span></>}
                 </Button>
               )}
@@ -550,33 +550,33 @@ export default function HomePage() {
           </div>
           <div className="px-4 pb-3 flex items-end justify-between">
             <div>
-              <h1 className="font-black text-2xl leading-tight">{crawl?.name ?? 'Thames Pub Crawl'}</h1>
+              <h1 className="font-display font-semibold text-2xl leading-tight">{crawl?.name ?? 'Thames Pub Crawl'}</h1>
               {isParticipantLike ? (
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="bg-white/20 text-white text-xs font-bold px-2.5 py-0.5 rounded-full">
+                  <span className="bg-cream/20 text-cream text-xs font-bold px-2.5 py-0.5 rounded-full">
                     🍺 {participantName ?? 'On the crawl'}
                   </span>
                 </div>
               ) : crawl?.status === 'pending' && crawl.date ? (
-                <p className="text-xs text-white/70 mt-0.5">
+                <p className="text-xs text-cream/70 mt-0.5">
                   {new Date(crawl.date + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}
                   {crawl.start_time ? ` · ${crawl.start_time.slice(0, 5)}` : ''}
                 </p>
               ) : (
-                <p className="text-xs text-white/60 mt-0.5">Spectator view</p>
+                <p className="text-xs text-cream/60 mt-0.5">Spectator view</p>
               )}
               {/* Weather + headcount chips */}
               {(weather || participantCount !== null) && (
                 <div className="flex items-center gap-2 mt-1.5">
                   {weather && (
-                    <span className="bg-white/15 text-white text-xs font-medium px-2 py-0.5 rounded-full">
+                    <span className="bg-cream/15 text-cream text-xs font-medium px-2 py-0.5 rounded-full">
                       {weather.emoji} {weather.temp}°C
                     </span>
                   )}
                   {participantCount !== null && participantCount > 0 && (
                     <button
                       onClick={openParticipantList}
-                      className="bg-white/15 hover:bg-white/25 transition-colors text-white text-xs font-medium px-2 py-0.5 rounded-full"
+                      className="bg-cream/15 hover:bg-cream/25 transition-colors text-cream text-xs font-medium px-2 py-0.5 rounded-full"
                     >
                       👥 {participantCount} {participantCount === 1 ? 'person' : 'people'}
                     </button>
@@ -587,7 +587,7 @@ export default function HomePage() {
           </div>
         </header>
 
-        <div className="px-3 py-2 bg-gray-50 border-b border-gray-100">
+        <div className="px-3 py-2 bg-ink border-b border-cream/10">
           <StatusBar
             crawl={crawl}
             currentPub={currentPub}
@@ -598,15 +598,15 @@ export default function HomePage() {
         </div>
 
         {crawl?.status === 'active' && (totalDrinks(groupDrinks) > 0 || isParticipantLike) && (
-          <div className="px-4 py-2 bg-amber-50 border-b border-amber-100 flex items-center justify-between gap-2 flex-wrap">
-            <div className="flex items-center gap-3 text-sm font-medium text-amber-800 flex-wrap">
+          <div className="px-4 py-2 bg-copper/10 border-b border-copper/20 flex items-center justify-between gap-2 flex-wrap">
+            <div className="flex items-center gap-3 text-sm font-medium text-copper-bright flex-wrap">
               {DRINK_TYPES.filter(({ key }) => groupDrinks[key] > 0).map(({ key, emoji }) => (
                 <span key={key}>{emoji} {groupDrinks[key]}</span>
               ))}
-              <span className="text-amber-400 text-xs font-normal">group total</span>
+              <span className="text-copper-bright text-xs font-normal">group total</span>
             </div>
             {isParticipantLike && (
-              <div className="flex items-center gap-2 text-xs text-amber-600">
+              <div className="flex items-center gap-2 text-xs text-copper-bright">
                 <span>
                   you: {DRINK_TYPES.filter(({ key }) => myDrinks[key] > 0).map(({ key, emoji }) => `${emoji} ${myDrinks[key]}`).join(' ') || 'nothing yet'}
                 </span>
@@ -615,13 +615,13 @@ export default function HomePage() {
           </div>
         )}
 
-        <div className="px-3 py-1.5 bg-white border-b border-gray-100">
+        <div className="px-3 py-1.5 bg-surface-raised border-b border-cream/10">
           <Tabs value={tab} onValueChange={v => setTab(v as TabMode)}>
-            <TabsList className="w-full bg-gray-100">
-              <TabsTrigger value="map" className="flex-1 gap-1.5 data-[state=active]:bg-orange-500 data-[state=active]:text-white data-[state=active]:shadow-sm">
+            <TabsList className="w-full bg-cream/8">
+              <TabsTrigger value="map" className="flex-1 gap-1.5 data-[state=active]:bg-copper data-[state=active]:text-cream data-[state=active]:shadow-sm">
                 <MapIcon className="w-4 h-4" /> Map
               </TabsTrigger>
-              <TabsTrigger value="list" className="flex-1 gap-1.5 data-[state=active]:bg-orange-500 data-[state=active]:text-white data-[state=active]:shadow-sm">
+              <TabsTrigger value="list" className="flex-1 gap-1.5 data-[state=active]:bg-copper data-[state=active]:text-cream data-[state=active]:shadow-sm">
                 <List className="w-4 h-4" /> Pubs ({pubs.length})
               </TabsTrigger>
             </TabsList>
@@ -633,10 +633,10 @@ export default function HomePage() {
         {crawl?.status === 'completed' ? (
           <div className="px-3 py-4 space-y-4">
             {/* Hero */}
-            <div className="bg-gradient-to-br from-orange-500 to-rose-500 rounded-3xl px-6 py-8 text-center text-white shadow-lg">
+            <div className="bg-gradient-to-br from-copper to-ember rounded-3xl px-6 py-8 text-center text-cream shadow-lg">
               <div className="text-5xl mb-3">🏁</div>
-              <h2 className="font-black text-3xl leading-tight">What a night!</h2>
-              <p className="text-white/70 text-sm mt-2">{crawl.name} · complete</p>
+              <h2 className="font-display font-semibold text-3xl leading-tight">What a night!</h2>
+              <p className="text-cream/70 text-sm mt-2">{crawl.name} · complete</p>
             </div>
 
             {/* Stats row */}
@@ -648,17 +648,17 @@ export default function HomePage() {
                   value: groupDrinks[key] % 1 !== 0 ? groupDrinks[key].toFixed(1) : groupDrinks[key],
                 })),
               ].map(({ label, value }) => (
-                <div key={label} className="bg-white rounded-2xl p-3 text-center shadow-sm border border-gray-100">
-                  <p className="text-2xl font-black text-gray-900">{value}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">{label}</p>
+                <div key={label} className="bg-surface-raised rounded-2xl p-3 text-center shadow-sm border border-cream/10">
+                  <p className="text-2xl font-black text-cream">{value}</p>
+                  <p className="text-xs text-parchment mt-0.5">{label}</p>
                 </div>
               ))}
             </div>
 
             {/* Pub breakdown */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-              <div className="px-4 pt-3 pb-2 border-b border-gray-50">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Pub breakdown</p>
+            <div className="bg-surface-raised rounded-2xl shadow-sm border border-cream/10 overflow-hidden">
+              <div className="px-4 pt-3 pb-2 border-b border-cream/6">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-parchment-dim">Pub breakdown</p>
               </div>
               {sortedPubs.filter(p => p.status === 'visited').map((pub, i) => {
                 const pubRatings = ratings.filter(r => r.pub_id === pub.id)
@@ -667,21 +667,21 @@ export default function HomePage() {
                 const departure = pub.actual_departure_at ? new Date(pub.actual_departure_at) : null
                 const dwellMins = arrival && departure ? Math.round((departure.getTime() - arrival.getTime()) / 60000) : null
                 return (
-                  <div key={pub.id} className="flex items-center gap-3 px-4 py-3 border-b border-gray-50 last:border-0">
-                    <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500 shrink-0">
+                  <div key={pub.id} className="flex items-center gap-3 px-4 py-3 border-b border-cream/6 last:border-0">
+                    <div className="w-7 h-7 rounded-full bg-cream/8 flex items-center justify-center text-xs font-bold text-parchment shrink-0">
                       {i + 1}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-gray-800 truncate">{pub.name}</p>
-                      <p className="text-xs text-gray-400">
+                      <p className="text-sm font-semibold text-cream truncate">{pub.name}</p>
+                      <p className="text-xs text-parchment-dim">
                         {arrival ? arrival.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : '—'}
                         {dwellMins ? ` · ${dwellMins}min` : ''}
                       </p>
                     </div>
                     {avg !== null && (
                       <div className="flex items-center gap-1 shrink-0">
-                        <span className="text-amber-400">★</span>
-                        <span className="text-sm font-bold text-gray-700">{avg.toFixed(1)}</span>
+                        <span className="text-copper-bright">★</span>
+                        <span className="text-sm font-bold text-cream">{avg.toFixed(1)}</span>
                       </div>
                     )}
                   </div>
@@ -691,24 +691,24 @@ export default function HomePage() {
 
             {/* Drink leaderboard */}
             {leaderboard.length > 0 && (
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="px-4 pt-3 pb-2 border-b border-gray-50">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Drink leaderboard</p>
+              <div className="bg-surface-raised rounded-2xl shadow-sm border border-cream/10 overflow-hidden">
+                <div className="px-4 pt-3 pb-2 border-b border-cream/6">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-parchment-dim">Drink leaderboard</p>
                 </div>
                 {leaderboard.map((entry, i) => (
-                  <div key={entry.name} className="flex items-center gap-3 px-4 py-3 border-b border-gray-50 last:border-0">
-                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0 ${i === 0 ? 'bg-amber-100 text-amber-700' : i === 1 ? 'bg-gray-100 text-gray-600' : i === 2 ? 'bg-orange-100 text-orange-700' : 'bg-gray-50 text-gray-400'}`}>
+                  <div key={entry.name} className="flex items-center gap-3 px-4 py-3 border-b border-cream/6 last:border-0">
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0 ${i === 0 ? 'bg-copper/15 text-copper-bright' : i === 1 ? 'bg-cream/8 text-parchment' : i === 2 ? 'bg-copper/15 text-copper-bright' : 'bg-ink text-parchment-dim'}`}>
                       {i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-gray-800 truncate">{entry.name}</p>
-                      <p className="text-xs text-gray-400">
+                      <p className="text-sm font-semibold text-cream truncate">{entry.name}</p>
+                      <p className="text-xs text-parchment-dim">
                         {DRINK_TYPES.filter(({ key }) => entry[key] > 0).map(({ key, emoji }) => `${emoji} ${entry[key]}`).join(' · ')}
                       </p>
                     </div>
                     <div className="shrink-0">
-                      <span className="text-sm font-black text-gray-900">{entry.total}</span>
-                      <span className="text-xs text-gray-400 ml-0.5">drinks</span>
+                      <span className="text-sm font-black text-cream">{entry.total}</span>
+                      <span className="text-xs text-parchment-dim ml-0.5">drinks</span>
                     </div>
                   </div>
                 ))}
@@ -728,14 +728,14 @@ export default function HomePage() {
                   />
                 </div>
                 {viewMode === 'spectator' && leaderLocations.length > 0 && !leaderHintDismissed && (
-                  <div className="mx-3 mt-3 flex items-start gap-2.5 bg-blue-50 border border-blue-100 rounded-xl px-3.5 py-3">
+                  <div className="mx-3 mt-3 flex items-start gap-2.5 bg-copper/8 border border-copper/20 rounded-xl px-3.5 py-3">
                     <span className="text-base mt-0.5 shrink-0">📡</span>
-                    <p className="text-xs text-blue-700 leading-relaxed flex-1">
+                    <p className="text-xs text-copper-bright leading-relaxed flex-1">
                       Leader locations only update while they have the app open — tap a marker to see when it was last updated.
                     </p>
                     <button
                       onClick={() => setLeaderHintDismissed(true)}
-                      className="text-blue-400 hover:text-blue-600 text-lg leading-none shrink-0 -mt-0.5"
+                      className="text-copper-bright hover:text-copper-bright text-lg leading-none shrink-0 -mt-0.5"
                       aria-label="Dismiss"
                     >×</button>
                   </div>
@@ -746,9 +746,9 @@ export default function HomePage() {
             {tab === 'list' && (
               <>
                 {crawl?.status === 'pending' && viewMode === 'spectator' && (
-                  <div className="mx-3 mt-3 flex items-center gap-3 bg-amber-50 border border-amber-100 rounded-2xl px-4 py-3">
-                    <Users className="w-4 h-4 text-amber-500 shrink-0" />
-                    <p className="text-xs text-amber-800 leading-relaxed">
+                  <div className="mx-3 mt-3 flex items-center gap-3 bg-copper/10 border border-copper/20 rounded-2xl px-4 py-3">
+                    <Users className="w-4 h-4 text-copper-bright shrink-0" />
+                    <p className="text-xs text-copper-bright leading-relaxed">
                       {leaderNames.length > 0
                         ? <>When you arrive at the first pub, scan the QR code from <span className="font-semibold">{leaderNames.slice(0, -1).join(', ')}{leaderNames.length > 1 ? ' or ' : ''}{leaderNames[leaderNames.length - 1]}</span> to join the crawl.</>
                         : <>When you arrive at the first pub, scan the QR code from <span className="font-semibold">Ross</span> to join the crawl.</>
@@ -758,10 +758,10 @@ export default function HomePage() {
                 )}
 
                 {crawl?.status === 'pending' && sortedPubs.length > 0 && (
-                  <div className="mx-3 mt-3 mb-1 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div className="px-4 pt-3 pb-2 border-b border-gray-50 flex items-center justify-between">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Today&apos;s route</p>
-                      <p className="text-[10px] text-gray-400">{sortedPubs.length} stops</p>
+                  <div className="mx-3 mt-3 mb-1 bg-surface-raised rounded-2xl shadow-sm border border-cream/10 overflow-hidden">
+                    <div className="px-4 pt-3 pb-2 border-b border-cream/6 flex items-center justify-between">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-parchment-dim">Today&apos;s route</p>
+                      <p className="text-[10px] text-parchment-dim">{sortedPubs.length} stops</p>
                     </div>
                     <div className="px-4 pt-3 pb-1">
                       {sortedPubs.map((pub, i) => {
@@ -772,29 +772,29 @@ export default function HomePage() {
                           <div key={pub.id} className="flex gap-3">
                             {/* Timeline spine */}
                             <div className="flex flex-col items-center w-4 shrink-0">
-                              <div className={`w-3.5 h-3.5 rounded-full shrink-0 mt-0.5 ${isFirst ? 'bg-orange-500 ring-2 ring-orange-100' : isLast ? 'bg-rose-500 ring-2 ring-rose-100' : 'bg-orange-300'}`} />
-                              {!isLast && <div className="w-0.5 bg-orange-100 flex-1 min-h-[2.5rem] my-1" />}
+                              <div className={`w-3.5 h-3.5 rounded-full shrink-0 mt-0.5 ${isFirst ? 'bg-copper ring-2 ring-copper/20' : isLast ? 'bg-ember ring-2 ring-ember/20' : 'bg-copper/35'}`} />
+                              {!isLast && <div className="w-0.5 bg-copper/15 flex-1 min-h-[2.5rem] my-1" />}
                             </div>
                             {/* Content */}
                             <div className="flex-1 min-w-0 pb-3">
                               <div className="flex items-start justify-between gap-2">
                                 <div className="min-w-0 flex-1">
                                   <div className="flex items-center gap-1.5 flex-wrap">
-                                    <p className="text-sm font-semibold text-gray-800 truncate">{pub.name}</p>
-                                    {isFirst && <span className="text-[10px] font-bold uppercase tracking-wide bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-full shrink-0">Start</span>}
-                                    {isLast && <span className="text-[10px] font-bold uppercase tracking-wide bg-rose-100 text-rose-600 px-1.5 py-0.5 rounded-full shrink-0">Finish</span>}
+                                    <p className="text-sm font-semibold text-cream truncate">{pub.name}</p>
+                                    {isFirst && <span className="text-[10px] font-bold uppercase tracking-wide bg-copper/15 text-copper-bright px-1.5 py-0.5 rounded-full shrink-0">Start</span>}
+                                    {isLast && <span className="text-[10px] font-bold uppercase tracking-wide bg-ember/15 text-ember-bright px-1.5 py-0.5 rounded-full shrink-0">Finish</span>}
                                   </div>
-                                  <p className="text-xs text-orange-500 font-medium mt-0.5">{pub.planned_dwell_minutes} min drink time</p>
+                                  <p className="text-xs text-copper font-medium mt-0.5">{pub.planned_dwell_minutes} min drink time</p>
                                   {!isLast && pub.walking_minutes_to_next && (
-                                    <p className="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
+                                    <p className="text-xs text-parchment-dim mt-1.5 flex items-center gap-1">
                                       🚶 {pub.walking_minutes_to_next} min walk
                                     </p>
                                   )}
                                 </div>
                                 {t && (
                                   <div className="text-right shrink-0">
-                                    <p className="text-[10px] font-semibold uppercase tracking-wide text-gray-400">Arrive</p>
-                                    <p className="text-sm font-bold text-gray-800 tabular-nums">
+                                    <p className="text-[10px] font-semibold uppercase tracking-wide text-parchment-dim">Arrive</p>
+                                    <p className="text-sm font-bold text-cream tabular-nums">
                                       {t.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}
                                     </p>
                                   </div>
@@ -815,19 +815,19 @@ export default function HomePage() {
                       const progress = dwellMs !== null ? Math.min(100, Math.max(0, ((totalMs - dwellMs) / totalMs) * 100)) : 0
                       const overtime = dwellMs !== null && dwellMs < 0
                       return (
-                        <div className="bg-gradient-to-br from-orange-500 to-rose-500 rounded-2xl p-4 text-white shadow-md">
-                          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">They&apos;re currently at</p>
-                          <p className="font-black text-xl mt-0.5 leading-tight">{currentPub.name}</p>
-                          {currentPub.address && <p className="text-xs text-white/60 mt-0.5">{currentPub.address}</p>}
+                        <div className="bg-gradient-to-br from-copper to-ember rounded-2xl p-4 text-cream shadow-md">
+                          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cream/70">They&apos;re currently at</p>
+                          <p className="font-display font-semibold text-xl mt-0.5 leading-tight">{currentPub.name}</p>
+                          {currentPub.address && <p className="text-xs text-cream/60 mt-0.5">{currentPub.address}</p>}
                           {isLastPub ? (
-                            <p className="text-xs text-white/70 mt-3">🏁 Final stop — no rush!</p>
+                            <p className="text-xs text-cream/70 mt-3">🏁 Final stop — no rush!</p>
                           ) : dwellMs !== null && (
                             <div className="mt-3">
-                              <p className="text-xs text-white/70 mb-1.5">
+                              <p className="text-xs text-cream/70 mb-1.5">
                                 {overtime ? '⏰ Running over time' : `~${formatDuration(Math.abs(dwellMs))} drink time left`}
                               </p>
-                              <div className="h-1.5 bg-white/20 rounded-full overflow-hidden">
-                                <div className="h-full bg-white/70 rounded-full transition-all duration-1000" style={{ width: `${progress}%` }} />
+                              <div className="h-1.5 bg-cream/20 rounded-full overflow-hidden">
+                                <div className="h-full bg-cream/70 rounded-full transition-all duration-1000" style={{ width: `${progress}%` }} />
                               </div>
                             </div>
                           )}
@@ -835,7 +835,7 @@ export default function HomePage() {
                             <a
                               href={`https://maps.google.com/maps?daddr=${currentPub.lat},${currentPub.lng}`}
                               target="_blank" rel="noopener noreferrer"
-                              className="mt-3 inline-flex items-center gap-1.5 bg-white/20 hover:bg-white/30 text-white text-xs font-semibold px-3 py-1.5 rounded-full"
+                              className="mt-3 inline-flex items-center gap-1.5 bg-cream/20 hover:bg-cream/30 text-cream text-xs font-semibold px-3 py-1.5 rounded-full"
                             >
                               <Navigation className="w-3 h-3" /> Get directions
                             </a>
@@ -847,23 +847,23 @@ export default function HomePage() {
                     {nextPub && (() => {
                       const nextTime = effectiveSchedule.get(nextPub.id)
                       return (
-                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
-                          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-1.5">{isEnRoute ? 'En route to' : 'Next stop'}</p>
+                        <div className="bg-surface-raised rounded-2xl shadow-sm border border-cream/10 p-4">
+                          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-parchment-dim mb-1.5">{isEnRoute ? 'En route to' : 'Next stop'}</p>
                           <div className="flex items-start justify-between gap-3">
                             <div className="min-w-0">
-                              <p className="font-bold text-gray-800 truncate">{nextPub.name}</p>
+                              <p className="font-display font-semibold text-cream truncate">{nextPub.name}</p>
                               {nextTime && (
-                                <p className="text-sm text-orange-500 font-medium mt-0.5">
+                                <p className="text-sm text-copper font-medium mt-0.5">
                                   Arriving ~{nextTime.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}
                                 </p>
                               )}
-                              <p className="text-xs text-gray-400 mt-0.5">{nextPub.planned_dwell_minutes} min drink time</p>
+                              <p className="text-xs text-parchment-dim mt-0.5">{nextPub.planned_dwell_minutes} min drink time</p>
                             </div>
                             {nextPub.lat && nextPub.lng && (
                               <a
                                 href={`https://maps.google.com/maps?daddr=${nextPub.lat},${nextPub.lng}`}
                                 target="_blank" rel="noopener noreferrer"
-                                className="shrink-0 flex items-center gap-1.5 text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 px-3 py-2 rounded-xl"
+                                className="shrink-0 flex items-center gap-1.5 text-xs font-semibold text-copper-bright bg-copper/8 hover:bg-copper/15 px-3 py-2 rounded-xl"
                               >
                                 <Navigation className="w-3 h-3" /> Meet them there
                               </a>
@@ -873,9 +873,9 @@ export default function HomePage() {
                       )
                     })()}
 
-                    <div className="flex items-center gap-3 bg-amber-50 border border-amber-100 rounded-2xl px-4 py-3">
-                      <Users className="w-4 h-4 text-amber-500 shrink-0" />
-                      <p className="text-xs text-amber-800 leading-relaxed">
+                    <div className="flex items-center gap-3 bg-copper/10 border border-copper/20 rounded-2xl px-4 py-3">
+                      <Users className="w-4 h-4 text-copper-bright shrink-0" />
+                      <p className="text-xs text-copper-bright leading-relaxed">
                         Not joined yet? When you arrive at this pub, scan the QR code from
                         {leaderNames.length > 0
                           ? ` ${leaderNames.slice(0, -1).join(', ')}${leaderNames.length > 1 ? ' or ' : ''}${leaderNames[leaderNames.length - 1]}`
@@ -888,16 +888,16 @@ export default function HomePage() {
 
                 {/* Last pub CTA */}
                 {crawl?.status === 'active' && isLastPub && isParticipantLike && (
-                  <div className="mx-3 mt-3 bg-gradient-to-br from-violet-500 to-rose-500 rounded-2xl p-4 text-white shadow-md">
+                  <div className="mx-3 mt-3 bg-gradient-to-br from-ember to-copper-dim rounded-2xl p-4 text-cream shadow-md">
                     <p className="font-black text-lg leading-tight">🏁 Final stop!</p>
-                    <p className="text-sm text-white/80 mt-1 leading-relaxed">Log your drinks and leave a rating before we wrap up — your scores lock in when the crawl ends.</p>
+                    <p className="text-sm text-cream/80 mt-1 leading-relaxed">Log your drinks and leave a rating before we wrap up — your scores lock in when the crawl ends.</p>
                     <div className="flex gap-2 mt-3 flex-wrap">
                       <button
                         onClick={() => {
                           const el = document.getElementById(`pub-card-${currentPub?.id}`)
                           el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
                         }}
-                        className="bg-white/20 hover:bg-white/30 text-white text-sm font-semibold px-4 py-2 rounded-full"
+                        className="bg-cream/20 hover:bg-cream/30 text-cream text-sm font-semibold px-4 py-2 rounded-full"
                       >
                         Log drinks & rate 🍺
                       </button>
@@ -906,7 +906,7 @@ export default function HomePage() {
                           if (crawl?.id) fetchLeaderboard(crawl.id)
                           setShowStats(true)
                         }}
-                        className="bg-white text-violet-700 text-sm font-semibold px-4 py-2 rounded-full"
+                        className="bg-surface-raised text-copper-bright text-sm font-semibold px-4 py-2 rounded-full"
                       >
                         View all stats 📊
                       </button>
@@ -933,7 +933,7 @@ export default function HomePage() {
                     />
                   ))}
                   {pubs.length === 0 && (
-                    <p className="text-center text-gray-500 py-10">No pubs added yet</p>
+                    <p className="text-center text-parchment py-10">No pubs added yet</p>
                   )}
                 </div>
               </>
@@ -945,18 +945,18 @@ export default function HomePage() {
       {/* Full-screen arrival modal */}
       {arrivalModal && (
         <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm px-5">
-          <div className="w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden">
-            <div className="bg-linear-to-br from-green-400 to-emerald-600 px-6 pt-8 pb-6 text-center">
+          <div className="w-full max-w-sm bg-surface-raised rounded-3xl shadow-2xl overflow-hidden">
+            <div className="bg-linear-to-br from-sage to-sage-dim px-6 pt-8 pb-6 text-center">
               <div className="text-6xl mb-3">🍺</div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-green-100 mb-1">You've arrived!</p>
-              <p className="font-black text-2xl text-white leading-tight">{arrivalModal.pubName}</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-cream/80 mb-1">You've arrived!</p>
+              <p className="font-display font-semibold text-2xl text-cream leading-tight">{arrivalModal.pubName}</p>
             </div>
             <div className="px-6 py-5 text-center space-y-4">
-              <p className="text-gray-600 text-sm leading-relaxed">
-                You can now <span className="font-semibold text-gray-800">rate this pub</span> and <span className="font-semibold text-gray-800">log your drinks</span> — tap below to get started.
+              <p className="text-parchment text-sm leading-relaxed">
+                You can now <span className="font-semibold text-cream">rate this pub</span> and <span className="font-semibold text-cream">log your drinks</span> — tap below to get started.
               </p>
               <Button
-                className="w-full bg-linear-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white font-bold py-3 rounded-2xl border-0 text-base h-auto"
+                className="w-full bg-linear-to-r from-copper to-ember hover:from-copper-bright hover:to-ember-bright text-cream font-bold py-3 rounded-2xl border-0 text-base h-auto"
                 onClick={() => {
                   setTab('list')
                   setArrivalModal(null)
@@ -966,7 +966,7 @@ export default function HomePage() {
               </Button>
               <button
                 onClick={() => setArrivalModal(null)}
-                className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-sm text-parchment-dim hover:text-parchment transition-colors"
               >
                 Dismiss
               </button>
@@ -985,26 +985,26 @@ export default function HomePage() {
           className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm px-5"
           onClick={e => { if (e.target === e.currentTarget) setShowParticipants(false) }}
         >
-          <div className="w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[75vh] flex flex-col">
-            <div className="bg-gradient-to-r from-orange-500 to-rose-500 px-6 py-5 text-center shrink-0">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/70 mb-1">On the crawl</p>
-              <p className="font-black text-2xl text-white leading-tight">
+          <div className="w-full max-w-sm bg-surface-raised rounded-3xl shadow-2xl overflow-hidden max-h-[75vh] flex flex-col">
+            <div className="bg-gradient-to-r from-copper to-ember px-6 py-5 text-center shrink-0">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-cream/70 mb-1">On the crawl</p>
+              <p className="font-black text-2xl text-cream leading-tight">
                 {participantNames === null ? '…' : `${participantNames.length} ${participantNames.length === 1 ? 'person' : 'people'}`}
               </p>
             </div>
             <div className="overflow-y-auto px-6 py-4">
               {participantNames === null ? (
-                <p className="text-center text-sm text-gray-400 py-4">Loading…</p>
+                <p className="text-center text-sm text-parchment-dim py-4">Loading…</p>
               ) : participantNames.length === 0 ? (
-                <p className="text-center text-sm text-gray-400 py-4">Nobody's joined yet.</p>
+                <p className="text-center text-sm text-parchment-dim py-4">Nobody's joined yet.</p>
               ) : (
                 <ul className="space-y-2">
                   {participantNames.map((name, i) => (
-                    <li key={i} className="flex items-center gap-2.5 bg-gray-50 rounded-xl px-3.5 py-2.5">
-                      <span className="w-7 h-7 rounded-full bg-orange-100 text-orange-700 text-xs font-bold flex items-center justify-center shrink-0">
+                    <li key={i} className="flex items-center gap-2.5 bg-ink rounded-xl px-3.5 py-2.5">
+                      <span className="w-7 h-7 rounded-full bg-copper/15 text-copper-bright text-xs font-bold flex items-center justify-center shrink-0">
                         {name.charAt(0).toUpperCase()}
                       </span>
-                      <span className="text-sm font-semibold text-gray-800 truncate">{name}</span>
+                      <span className="text-sm font-semibold text-cream truncate">{name}</span>
                     </li>
                   ))}
                 </ul>
@@ -1013,7 +1013,7 @@ export default function HomePage() {
             <div className="px-6 pb-5 pt-1 shrink-0">
               <button
                 onClick={() => setShowParticipants(false)}
-                className="w-full text-sm text-gray-400 hover:text-gray-600 transition-colors py-2"
+                className="w-full text-sm text-parchment-dim hover:text-parchment transition-colors py-2"
               >
                 Close
               </button>
@@ -1028,28 +1028,28 @@ export default function HomePage() {
           className="fixed inset-0 z-[2000] flex items-end justify-center bg-black/60 backdrop-blur-sm"
           onClick={e => { if (e.target === e.currentTarget) setShowStats(false) }}
         >
-          <div className="w-full max-w-lg bg-white rounded-t-3xl shadow-2xl overflow-hidden max-h-[85vh] flex flex-col">
+          <div className="w-full max-w-lg bg-surface-raised rounded-t-3xl shadow-2xl overflow-hidden max-h-[85vh] flex flex-col">
             {/* Header */}
-            <div className="bg-gradient-to-br from-violet-500 to-rose-500 px-6 pt-6 pb-5 text-white shrink-0">
+            <div className="bg-gradient-to-br from-ember to-copper-dim px-6 pt-6 pb-5 text-cream shrink-0">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">End of crawl</p>
-                  <p className="font-black text-2xl leading-tight">Stats 📊</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-cream/70">End of crawl</p>
+                  <p className="font-display font-semibold text-2xl leading-tight">Stats 📊</p>
                 </div>
-                <button onClick={() => setShowStats(false)} className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white text-lg">×</button>
+                <button onClick={() => setShowStats(false)} className="w-8 h-8 rounded-full bg-cream/20 flex items-center justify-center text-cream text-lg">×</button>
               </div>
               {/* Tab toggle */}
               {isParticipantLike && (
-                <div className="flex bg-white/15 rounded-xl p-1 gap-1">
+                <div className="flex bg-cream/15 rounded-xl p-1 gap-1">
                   <button
                     onClick={() => setStatsTab('my')}
-                    className={`flex-1 text-sm font-semibold py-1.5 rounded-lg transition-all ${statsTab === 'my' ? 'bg-white text-violet-700' : 'text-white/80 hover:text-white'}`}
+                    className={`flex-1 text-sm font-semibold py-1.5 rounded-lg transition-all ${statsTab === 'my' ? 'bg-surface-raised text-copper-bright' : 'text-cream/80 hover:text-cream'}`}
                   >
                     My stats
                   </button>
                   <button
                     onClick={() => setStatsTab('group')}
-                    className={`flex-1 text-sm font-semibold py-1.5 rounded-lg transition-all ${statsTab === 'group' ? 'bg-white text-violet-700' : 'text-white/80 hover:text-white'}`}
+                    className={`flex-1 text-sm font-semibold py-1.5 rounded-lg transition-all ${statsTab === 'group' ? 'bg-surface-raised text-copper-bright' : 'text-cream/80 hover:text-cream'}`}
                   >
                     Group stats
                   </button>
@@ -1063,20 +1063,20 @@ export default function HomePage() {
                 <>
                   {/* My totals */}
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Your totals</p>
+                    <p className="text-xs font-bold uppercase tracking-wide text-parchment-dim mb-3">Your totals</p>
                     <div className="grid grid-cols-3 gap-3">
                       {DRINK_TYPES.map(({ key, emoji, label }) => (
-                        <div key={key} className="bg-violet-50 rounded-2xl p-3 text-center">
+                        <div key={key} className="bg-copper/10 rounded-2xl p-3 text-center">
                           <p className="text-2xl mb-1">{emoji}</p>
-                          <p className="font-black text-xl text-gray-900">{myDrinks[key]}</p>
-                          <p className="text-[10px] text-gray-500 font-medium uppercase tracking-wide">{label}</p>
+                          <p className="font-black text-xl text-cream">{myDrinks[key]}</p>
+                          <p className="text-[10px] text-parchment font-medium uppercase tracking-wide">{label}</p>
                         </div>
                       ))}
                     </div>
                     {viewMode === 'participant' && !isAdmin && (
                       <button
                         onClick={leaveCrawl}
-                        className="w-full text-center text-xs text-gray-400 hover:text-gray-600 mt-3"
+                        className="w-full text-center text-xs text-parchment-dim hover:text-parchment mt-3"
                       >
                         I've left the crawl
                       </button>
@@ -1086,37 +1086,37 @@ export default function HomePage() {
                   {/* My pub breakdown */}
                   {sortedPubs.filter(p => p.status === 'visited' || p.status === 'current').length > 0 && (
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Pub by pub</p>
+                      <p className="text-xs font-bold uppercase tracking-wide text-parchment-dim mb-3">Pub by pub</p>
                       <div className="space-y-2">
                         {sortedPubs.filter(p => p.status === 'visited' || p.status === 'current').map((pub, i) => {
                           const myPubDrinks = myDrinksByPub[pub.id]
                           const myRating = myRatings[pub.id]
                           const hasDrinks = myPubDrinks && hasAnyDrinks(myPubDrinks)
                           return (
-                            <div key={pub.id} className="bg-gray-50 rounded-xl px-4 py-3">
+                            <div key={pub.id} className="bg-ink rounded-xl px-4 py-3">
                               <div className="flex items-center gap-3">
-                                <span className="text-sm font-black text-gray-300 w-5 shrink-0">{i + 1}</span>
-                                <span className="flex-1 font-semibold text-gray-900 truncate">{pub.name}</span>
+                                <span className="text-sm font-black text-parchment-dim w-5 shrink-0">{i + 1}</span>
+                                <span className="flex-1 font-semibold text-cream truncate">{pub.name}</span>
                                 {myRating && (
                                   <div className="flex gap-0.5 shrink-0">
                                     {[1,2,3,4,5].map(s => (
-                                      <svg key={s} className={`w-3 h-3 ${s <= myRating.score ? 'text-amber-400 fill-amber-400' : 'text-gray-200 fill-gray-200'}`} viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                      <svg key={s} className={`w-3 h-3 ${s <= myRating.score ? 'text-copper-bright fill-copper-bright' : 'text-parchment-dim fill-cream/15'}`} viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
                                     ))}
                                   </div>
                                 )}
                               </div>
                               {hasDrinks && (
-                                <div className="flex gap-3 text-sm text-gray-500 mt-1.5 ml-8 flex-wrap">
+                                <div className="flex gap-3 text-sm text-parchment mt-1.5 ml-8 flex-wrap">
                                   {DRINK_TYPES.filter(({ key }) => myPubDrinks[key] > 0).map(({ key, emoji }) => (
                                     <span key={key}>{emoji}{myPubDrinks[key]}</span>
                                   ))}
                                 </div>
                               )}
                               {myRating?.comment && (
-                                <p className="text-xs text-gray-400 italic mt-1 ml-8 whitespace-pre-wrap">"{myRating.comment}"</p>
+                                <p className="text-xs text-parchment-dim italic mt-1 ml-8 whitespace-pre-wrap">"{myRating.comment}"</p>
                               )}
                               {!hasDrinks && !myRating && (
-                                <p className="text-xs text-gray-400 mt-1 ml-8">Nothing logged</p>
+                                <p className="text-xs text-parchment-dim mt-1 ml-8">Nothing logged</p>
                               )}
                             </div>
                           )
@@ -1132,13 +1132,13 @@ export default function HomePage() {
                 <>
                   {/* Group drink totals */}
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Group totals</p>
+                    <p className="text-xs font-bold uppercase tracking-wide text-parchment-dim mb-3">Group totals</p>
                     <div className="grid grid-cols-3 gap-3">
                       {DRINK_TYPES.map(({ key, emoji, label }) => (
-                        <div key={key} className="bg-gray-50 rounded-2xl p-3 text-center">
+                        <div key={key} className="bg-ink rounded-2xl p-3 text-center">
                           <p className="text-2xl mb-1">{emoji}</p>
-                          <p className="font-black text-xl text-gray-900">{groupDrinks[key]}</p>
-                          <p className="text-[10px] text-gray-500 font-medium uppercase tracking-wide">{label}</p>
+                          <p className="font-black text-xl text-cream">{groupDrinks[key]}</p>
+                          <p className="text-[10px] text-parchment font-medium uppercase tracking-wide">{label}</p>
                         </div>
                       ))}
                     </div>
@@ -1147,15 +1147,15 @@ export default function HomePage() {
                   {/* Leaderboard */}
                   {leaderboard.length > 0 && (
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Drinks leaderboard</p>
+                      <p className="text-xs font-bold uppercase tracking-wide text-parchment-dim mb-3">Drinks leaderboard</p>
                       <div className="space-y-2">
                         {leaderboard.map((entry, i) => (
-                          <div key={entry.name} className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
-                            <span className={`text-sm font-black w-6 shrink-0 ${i === 0 ? 'text-amber-400' : i === 1 ? 'text-gray-400' : i === 2 ? 'text-orange-700' : 'text-gray-300'}`}>
+                          <div key={entry.name} className="flex items-center gap-3 bg-ink rounded-xl px-4 py-3">
+                            <span className={`text-sm font-black w-6 shrink-0 ${i === 0 ? 'text-copper-bright' : i === 1 ? 'text-parchment-dim' : i === 2 ? 'text-copper-bright' : 'text-parchment-dim'}`}>
                               {i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}`}
                             </span>
-                            <span className="flex-1 font-semibold text-gray-900 truncate">{entry.name}</span>
-                            <div className="flex gap-3 text-sm text-gray-600 shrink-0 flex-wrap">
+                            <span className="flex-1 font-semibold text-cream truncate">{entry.name}</span>
+                            <div className="flex gap-3 text-sm text-parchment shrink-0 flex-wrap">
                               {DRINK_TYPES.filter(({ key }) => entry[key] > 0).map(({ key, emoji }) => (
                                 <span key={key}>{emoji}{entry[key]}</span>
                               ))}
@@ -1169,26 +1169,26 @@ export default function HomePage() {
                   {/* Pub ratings */}
                   {sortedPubs.filter(p => p.status === 'visited' || p.status === 'current').length > 0 && (
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Pub ratings</p>
+                      <p className="text-xs font-bold uppercase tracking-wide text-parchment-dim mb-3">Pub ratings</p>
                       <div className="space-y-2">
                         {sortedPubs.filter(p => p.status === 'visited' || p.status === 'current').map((pub, i) => {
                           const pubRatings = ratings.filter(r => r.pub_id === pub.id)
                           const avg = pubRatings.length > 0 ? pubRatings.reduce((s, r) => s + r.score, 0) / pubRatings.length : null
                           return (
-                            <div key={pub.id} className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
-                              <span className="text-sm font-black text-gray-300 w-6 shrink-0">{i + 1}</span>
-                              <span className="flex-1 font-semibold text-gray-900 truncate">{pub.name}</span>
+                            <div key={pub.id} className="flex items-center gap-3 bg-ink rounded-xl px-4 py-3">
+                              <span className="text-sm font-black text-parchment-dim w-6 shrink-0">{i + 1}</span>
+                              <span className="flex-1 font-semibold text-cream truncate">{pub.name}</span>
                               {pub.status === 'current' ? (
-                                <span className="text-xs text-gray-400 italic shrink-0">Awaiting reviews</span>
+                                <span className="text-xs text-parchment-dim italic shrink-0">Awaiting reviews</span>
                               ) : avg !== null ? (
                                 <div className="flex items-center gap-1 shrink-0">
                                   {[1,2,3,4,5].map(s => (
-                                    <svg key={s} className={`w-3.5 h-3.5 ${s <= Math.round(avg) ? 'text-amber-400 fill-amber-400' : 'text-gray-200 fill-gray-200'}`} viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                    <svg key={s} className={`w-3.5 h-3.5 ${s <= Math.round(avg) ? 'text-copper-bright fill-copper-bright' : 'text-parchment-dim fill-cream/15'}`} viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
                                   ))}
-                                  <span className="text-xs text-gray-500 ml-1">{avg.toFixed(1)}</span>
+                                  <span className="text-xs text-parchment ml-1">{avg.toFixed(1)}</span>
                                 </div>
                               ) : (
-                                <span className="text-xs text-gray-400 shrink-0">No ratings</span>
+                                <span className="text-xs text-parchment-dim shrink-0">No ratings</span>
                               )}
                             </div>
                           )
@@ -1202,14 +1202,14 @@ export default function HomePage() {
 
             {/* Recap card button */}
             {recapData && (
-              <div className="shrink-0 px-5 pb-5 pt-2 border-t border-gray-100">
+              <div className="shrink-0 px-5 pb-5 pt-2 border-t border-cream/10">
                 <button
                   onClick={() => {
                     if (crawl?.id) fetchLeaderboard(crawl.id)
                     setShowStats(false)
                     setShowRecap(true)
                   }}
-                  className="w-full bg-gradient-to-r from-violet-500 to-rose-500 text-white font-bold py-3 rounded-2xl text-sm"
+                  className="w-full bg-gradient-to-r from-ember to-copper-dim text-cream font-bold py-3 rounded-2xl text-sm"
                 >
                   Generate recap card 🎉
                 </button>
@@ -1232,15 +1232,15 @@ export default function HomePage() {
         >
           <button
             onClick={() => setPubBanner(null)}
-            className="pointer-events-auto w-full max-w-sm bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-2xl shadow-2xl px-5 py-4 flex items-center gap-4 text-left"
+            className="pointer-events-auto w-full max-w-sm bg-gradient-to-r from-sage to-sage-dim text-cream rounded-2xl shadow-2xl px-5 py-4 flex items-center gap-4 text-left"
           >
             <span className="text-4xl">🍺</span>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-bold uppercase tracking-[0.15em] text-green-100">
+              <p className="text-xs font-bold uppercase tracking-[0.15em] text-cream/80">
                 {isParticipantLike ? "We've arrived!" : 'The group has arrived!'}
               </p>
-              <p className="font-black text-xl leading-tight truncate">{pubBanner}</p>
-              <p className="text-xs text-green-200 mt-0.5">Tap to dismiss</p>
+              <p className="font-display font-semibold text-xl leading-tight truncate">{pubBanner}</p>
+              <p className="text-xs text-cream/70 mt-0.5">Tap to dismiss</p>
             </div>
           </button>
         </div>
@@ -1255,12 +1255,12 @@ export default function HomePage() {
           {/* Backdrop */}
           <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setBroadcast(null)} />
           {/* Card */}
-          <div className="relative w-full max-w-sm bg-gradient-to-br from-orange-500 to-rose-600 rounded-3xl shadow-2xl p-8 text-center text-white">
+          <div className="relative w-full max-w-sm bg-gradient-to-br from-copper to-ember-bright rounded-3xl shadow-2xl p-8 text-center text-cream">
             <div className="text-5xl mb-4">📢</div>
             <p className="text-xl font-bold leading-snug">{broadcast.message}</p>
             <button
               onClick={() => setBroadcast(null)}
-              className="mt-6 bg-white/20 hover:bg-white/30 text-white font-semibold px-6 py-2.5 rounded-full text-sm transition-colors"
+              className="mt-6 bg-cream/20 hover:bg-cream/30 text-cream font-semibold px-6 py-2.5 rounded-full text-sm transition-colors"
             >
               Got it 👍
             </button>
@@ -1278,23 +1278,23 @@ export default function HomePage() {
 
         return (
           <div className="fixed bottom-0 left-0 right-0 z-20 shadow-lg">
-            <div className={`px-4 pt-3 pb-3 flex items-center justify-between gap-4 ${overtime ? 'bg-rose-600' : 'bg-gradient-to-r from-orange-500 to-rose-500'}`}>
+            <div className={`px-4 pt-3 pb-3 flex items-center justify-between gap-4 ${overtime ? 'bg-ember-bright' : 'bg-gradient-to-r from-copper to-ember'}`}>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cream/70">
                   {overtime ? 'Overtime!' : 'Time remaining'}
                 </p>
-                <p className="font-black text-2xl text-white tabular-nums leading-tight">
+                <p className="font-black text-2xl text-cream tabular-nums leading-tight">
                   {overtime ? `+${formatDuration(Math.abs(dwellMs))}` : formatDuration(dwellMs)}
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-xs text-white/60">at</p>
-                <p className="text-sm font-bold text-white">{currentPub.name}</p>
+                <p className="text-xs text-cream/60">at</p>
+                <p className="text-sm font-bold text-cream">{currentPub.name}</p>
               </div>
             </div>
             <div className="h-1 bg-black/20">
               <div
-                className="h-full bg-white/60 transition-all duration-1000"
+                className="h-full bg-cream/60 transition-all duration-1000"
                 style={{ width: `${progress}%` }}
               />
             </div>

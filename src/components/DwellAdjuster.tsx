@@ -40,12 +40,12 @@ export default function DwellAdjuster({ pub, authHeader, onUpdate }: Props) {
   }
 
   return (
-    <div className="mt-3 pt-3 border-t border-gray-100">
+    <div className="mt-3 pt-3 border-t border-cream/10">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs text-gray-500 flex items-center gap-1">
+        <span className="text-xs text-parchment flex items-center gap-1">
           <Clock className="w-3 h-3" /> Dwell time
         </span>
-        <span className={`text-sm font-bold tabular-nums ${saving ? 'text-amber-500' : 'text-gray-800'}`}>
+        <span className={`text-sm font-bold tabular-nums ${saving ? 'text-copper-bright' : 'text-cream'}`}>
           {dwell}m
         </span>
       </div>
@@ -55,7 +55,7 @@ export default function DwellAdjuster({ pub, authHeader, onUpdate }: Props) {
             key={label}
             onClick={() => adjust(delta)}
             disabled={saving || (delta < 0 && dwell + delta < 5)}
-            className="flex-1 text-xs font-semibold py-1.5 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed active:scale-95 transition-transform"
+            className="flex-1 text-xs font-semibold py-1.5 rounded-lg border border-cream/15 bg-surface-raised hover:bg-ink disabled:opacity-30 disabled:cursor-not-allowed active:scale-95 transition-transform"
           >
             {label}
           </button>

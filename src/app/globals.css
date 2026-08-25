@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,650&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme inline {
@@ -18,36 +19,61 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-ring: var(--ring);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /* Copper Hour palette */
+  --color-ink: #16120e;
+  --color-ink-2: #1b1611;
+  --color-surface: #221c16;
+  --color-surface-raised: #2b241c;
+  --color-cream: #f4ecdd;
+  --color-parchment: #bfaf98;
+  --color-parchment-dim: #8c7f6c;
+  --color-copper: #c8793a;
+  --color-copper-bright: #ecb063;
+  --color-copper-dim: #8a5228;
+  --color-ember: #7a3420;
+  --color-ember-bright: #9c4a30;
+  --color-sage: #93a67d;
+  --color-sage-dim: #5f6b4f;
+
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display-face);
+  --font-mono: var(--font-data);
 }
 
 @layer base {
   :root {
-    --background: #f9fafb;
-    --foreground: #111827;
-    --card: #ffffff;
-    --card-foreground: #111827;
-    --muted: #f3f4f6;
-    --muted-foreground: #6b7280;
-    --border: #e5e7eb;
-    --input: #e5e7eb;
-    --primary: #111827;
-    --primary-foreground: #f9fafb;
-    --secondary: #f3f4f6;
-    --secondary-foreground: #111827;
-    --accent: #f3f4f6;
-    --accent-foreground: #111827;
-    --destructive: #ef4444;
-    --destructive-foreground: #f9fafb;
-    --ring: #f59e0b;
-    --radius: 0.5rem;
+    --background: #16120e;
+    --foreground: #f4ecdd;
+    --card: #2b241c;
+    --card-foreground: #f4ecdd;
+    --muted: #221c16;
+    --muted-foreground: #bfaf98;
+    --border: rgb(244 236 221 / 10%);
+    --input: rgb(244 236 221 / 16%);
+    --primary: #c8793a;
+    --primary-foreground: #1a1108;
+    --secondary: #2b241c;
+    --secondary-foreground: #f4ecdd;
+    --accent: rgb(200 121 58 / 12%);
+    --accent-foreground: #ecb063;
+    --destructive: #b0432c;
+    --destructive-foreground: #f4ecdd;
+    --ring: #ecb063;
+    --radius: 0.85rem;
+
+    --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --font-display-face: 'Fraunces', ui-serif, Georgia, serif;
+    --font-data: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
   }
 
   body {
-    background: var(--background);
+    background:
+      radial-gradient(ellipse 60% 40% at 15% 0%, rgb(200 121 58 / 10%), transparent 60%),
+      radial-gradient(ellipse 50% 35% at 90% 10%, rgb(122 52 32 / 14%), transparent 60%),
+      var(--background);
     color: var(--foreground);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-body);
   }
 }
 
@@ -55,3 +81,26 @@
   from { opacity: 0; transform: translateY(-16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* Leaflet dark-theme overrides (map tiles are CARTO dark_all; this restyles Leaflet's own chrome) */
+.leaflet-popup-content-wrapper {
+  background: var(--color-surface-raised);
+  color: var(--color-cream);
+  border: 1px solid rgb(244 236 221 / 12%);
+  border-radius: 14px;
+  box-shadow: 0 12px 30px -10px rgb(0 0 0 / 60%);
+}
+.leaflet-popup-content { font-family: var(--font-body); font-size: 0.8rem; }
+.leaflet-popup-tip { background: var(--color-surface-raised); box-shadow: none; }
+.leaflet-popup-close-button { color: var(--color-parchment) !important; }
+.leaflet-control-zoom a {
+  background: var(--color-surface-raised) !important;
+  color: var(--color-cream) !important;
+  border-color: rgb(244 236 221 / 12%) !important;
+}
+.leaflet-control-zoom a:hover { background: var(--color-surface) !important; }
+.leaflet-control-attribution {
+  background: rgb(22 18 14 / 70%) !important;
+  color: var(--color-parchment-dim) !important;
+}
+.leaflet-control-attribution a { color: var(--color-parchment) !important; }

@@ -20,7 +20,7 @@ function JoinQRModal({ url, onClose }: { url: string; onClose: () => void }) {
         </DialogHeader>
         <div className="flex flex-col items-center gap-4 py-2">
           <img src={qrUrl} alt="Join QR Code" className="w-64 h-64 border rounded-lg" />
-          <p className="text-xs text-gray-500 text-center break-all">{url}</p>
+          <p className="text-xs text-parchment text-center break-all">{url}</p>
           <Button onClick={() => navigator.clipboard.writeText(url).catch(() => {})} variant="outline" size="sm">
             Copy link
           </Button>
@@ -157,8 +157,8 @@ export default function LeaderPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-amber-50">
-        <Beer className="w-8 h-8 text-amber-500 animate-bounce" />
+      <div className="min-h-screen flex items-center justify-center bg-copper/10">
+        <Beer className="w-8 h-8 text-copper-bright animate-bounce" />
       </div>
     )
   }
@@ -168,19 +168,19 @@ export default function LeaderPage() {
   const isLastPub = currentPub ? currentPub.id === pubs[pubs.length - 1]?.id : false
 
   return (
-    <div className="min-h-screen bg-gray-50 max-w-lg mx-auto pb-10">
+    <div className="min-h-screen bg-ink max-w-lg mx-auto pb-10">
       {/* Header */}
-      <header className="bg-gradient-to-b from-amber-700 to-amber-600 text-white px-4 pt-5 pb-5 sticky top-0 z-10 shadow-md">
+      <header className="bg-gradient-to-b from-ember to-copper-bright text-cream px-4 pt-5 pb-5 sticky top-0 z-10 shadow-md">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
             <Beer className="w-7 h-7 shrink-0 mt-0.5" />
             <div>
               <span className="font-bold text-xl leading-tight block">Hi, {leaderName}!</span>
-              <p className="text-amber-200 text-sm mt-0.5">{crawl?.name ?? 'Pub Crawl'} · Leader</p>
+              <p className="text-cream/70 text-sm mt-0.5">{crawl?.name ?? 'Pub Crawl'} · Leader</p>
             </div>
           </div>
           <a href="/">
-            <Button size="sm" variant="ghost" className="text-amber-200 hover:bg-amber-700 gap-1 text-xs mt-0.5">
+            <Button size="sm" variant="ghost" className="text-cream/70 hover:bg-copper-dim gap-1 text-xs mt-0.5">
               <ExternalLink className="w-3.5 h-3.5" /> View app
             </Button>
           </a>
@@ -191,15 +191,15 @@ export default function LeaderPage() {
 
         {/* Hero action card — current pub */}
         {currentPub && (
-          <Card className="ring-2 ring-green-400 shadow-md overflow-hidden">
-            <div className="bg-green-500 px-4 py-2 flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
-              <span className="text-white text-sm font-semibold tracking-wide">We&apos;re here!</span>
+          <Card className="ring-2 ring-sage/40 shadow-md overflow-hidden">
+            <div className="bg-sage px-4 py-2 flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-surface-raised animate-pulse" />
+              <span className="text-cream text-sm font-semibold tracking-wide">We&apos;re here!</span>
             </div>
             <CardContent className="pt-4 pb-4">
-              <p className="font-bold text-lg text-gray-800 leading-tight">{currentPub.name}</p>
+              <p className="font-bold text-lg text-cream leading-tight">{currentPub.name}</p>
               {currentPub.address && (
-                <p className="text-sm text-gray-500 flex items-center gap-1 mt-1">
+                <p className="text-sm text-parchment flex items-center gap-1 mt-1">
                   <MapPin className="w-3.5 h-3.5 shrink-0" />{currentPub.address}
                 </p>
               )}
@@ -212,7 +212,7 @@ export default function LeaderPage() {
               )}
               <Button
                 variant="outline"
-                className="mt-3 gap-1.5 text-blue-600 border-blue-200 hover:bg-blue-50 rounded-full px-5"
+                className="mt-3 gap-1.5 text-copper-bright border-copper/25 hover:bg-copper/8 rounded-full px-5"
                 onClick={() => markDeparted(currentPub)}
               >
                 <ArrowRight className="w-4 h-4" /> Mark departed
@@ -224,23 +224,23 @@ export default function LeaderPage() {
         {/* Hero action card — next pub */}
         {nextPub && !currentPub && (
           <Card className="shadow-md overflow-hidden">
-            <div className="bg-amber-500 px-4 py-2">
-              <span className="text-white text-sm font-semibold tracking-wide">Next stop</span>
+            <div className="bg-copper px-4 py-2">
+              <span className="text-cream text-sm font-semibold tracking-wide">Next stop</span>
             </div>
             <CardContent className="pt-4 pb-4">
-              <p className="font-bold text-xl text-gray-800 leading-tight">{nextPub.name}</p>
+              <p className="font-bold text-xl text-cream leading-tight">{nextPub.name}</p>
               {nextPub.address && (
-                <p className="text-sm text-gray-500 flex items-center gap-1 mt-1">
+                <p className="text-sm text-parchment flex items-center gap-1 mt-1">
                   <MapPin className="w-3.5 h-3.5 shrink-0" />{nextPub.address}
                 </p>
               )}
               {nextPub.planned_dwell_minutes && (
-                <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
+                <p className="text-xs text-parchment-dim flex items-center gap-1 mt-0.5">
                   <Clock className="w-3 h-3" />{nextPub.planned_dwell_minutes} min planned
                 </p>
               )}
               <Button
-                className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white gap-2 rounded-full text-base py-5"
+                className="mt-4 w-full bg-sage hover:bg-sage-dim text-cream gap-2 rounded-full text-base py-5"
                 onClick={() => markArrived(nextPub)}
               >
                 <MapPin className="w-5 h-5" /> Mark arrived
@@ -256,19 +256,19 @@ export default function LeaderPage() {
               <div className="flex items-center gap-3">
                 {trackingLocation ? (
                   <div className="relative flex items-center justify-center w-9 h-9 shrink-0">
-                    <div className="absolute w-9 h-9 rounded-full bg-green-100 animate-ping opacity-60" />
-                    <div className="relative w-3 h-3 rounded-full bg-green-500" />
+                    <div className="absolute w-9 h-9 rounded-full bg-sage/15 animate-ping opacity-60" />
+                    <div className="relative w-3 h-3 rounded-full bg-sage" />
                   </div>
                 ) : (
                   <div className="w-9 h-9 shrink-0 flex items-center justify-center">
-                    <div className="w-3 h-3 rounded-full bg-gray-300" />
+                    <div className="w-3 h-3 rounded-full bg-cream/16" />
                   </div>
                 )}
                 <div>
-                  <p className="font-medium text-sm text-gray-800">
+                  <p className="font-medium text-sm text-cream">
                     {trackingLocation ? 'Sharing your location' : 'Location off'}
                   </p>
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-parchment-dim">
                     {trackingLocation ? 'Group can see where you are' : 'Tap to share GPS with participants'}
                   </p>
                 </div>
@@ -296,8 +296,8 @@ export default function LeaderPage() {
             <CardContent className="pt-4 pb-4">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="font-medium text-sm text-gray-800">Invite participants</p>
-                  <p className="text-xs text-gray-400">Share a QR code to let people join</p>
+                  <p className="font-medium text-sm text-cream">Invite participants</p>
+                  <p className="text-xs text-parchment-dim">Share a QR code to let people join</p>
                 </div>
                 <Button
                   variant="outline"
@@ -314,7 +314,7 @@ export default function LeaderPage() {
 
         {/* Pub list */}
         <div className="space-y-2">
-          <p className="font-semibold text-sm px-1 text-gray-700">All pubs</p>
+          <p className="font-semibold text-sm px-1 text-cream">All pubs</p>
           {pubs.map((pub, i) => {
             const isVisited = pub.status === 'visited'
             const isCurrent = pub.status === 'current'
@@ -322,31 +322,31 @@ export default function LeaderPage() {
               <Card
                 key={pub.id}
                 className={`overflow-hidden transition-all ${
-                  isCurrent ? 'ring-2 ring-green-400 shadow-sm' :
+                  isCurrent ? 'ring-2 ring-sage/40 shadow-sm' :
                   isVisited ? 'opacity-55' : ''
                 }`}
               >
                 <CardContent className="p-0">
                   <div className="flex">
                     <div className={`w-1 shrink-0 ${
-                      isCurrent ? 'bg-green-400' :
-                      isVisited ? 'bg-gray-200' :
-                      'bg-blue-200'
+                      isCurrent ? 'bg-sage' :
+                      isVisited ? 'bg-cream/12' :
+                      'bg-copper/20'
                     }`} />
                     <div className="flex-1 p-3">
                       <div className="flex items-center gap-2">
                         <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
-                          isVisited ? 'bg-gray-100 text-gray-400' :
-                          isCurrent ? 'bg-green-100 text-green-700' :
-                          'bg-blue-50 text-blue-600'
+                          isVisited ? 'bg-cream/8 text-parchment-dim' :
+                          isCurrent ? 'bg-sage/15 text-sage-dim' :
+                          'bg-copper/8 text-copper-bright'
                         }`}>
                           {isVisited ? <CheckCircle2 className="w-3.5 h-3.5" /> : i + 1}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className={`font-medium text-sm truncate ${isVisited ? 'line-through text-gray-400' : 'text-gray-800'}`}>
+                          <p className={`font-medium text-sm truncate ${isVisited ? 'line-through text-parchment-dim' : 'text-cream'}`}>
                             {pub.name}
                           </p>
-                          <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-gray-500">
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-parchment">
                             {pub.address && (
                               <span className="flex items-center gap-0.5 truncate">
                                 <MapPin className="w-3 h-3 shrink-0" />{pub.address}
@@ -361,7 +361,7 @@ export default function LeaderPage() {
                           {pub.status === 'upcoming' && (
                             <Button
                               size="sm"
-                              className="h-7 px-3 text-xs gap-1 bg-green-500 hover:bg-green-600 text-white rounded-full"
+                              className="h-7 px-3 text-xs gap-1 bg-sage hover:bg-sage-dim text-cream rounded-full"
                               onClick={() => markArrived(pub)}
                             >
                               <CheckCircle className="w-3.5 h-3.5" /> Arrived
@@ -371,14 +371,14 @@ export default function LeaderPage() {
                             <Button
                               size="sm"
                               variant="outline"
-                              className="h-7 px-3 text-xs gap-1 text-blue-600 border-blue-200 hover:bg-blue-50 rounded-full"
+                              className="h-7 px-3 text-xs gap-1 text-copper-bright border-copper/25 hover:bg-copper/8 rounded-full"
                               onClick={() => markDeparted(pub)}
                             >
                               <ArrowRight className="w-3.5 h-3.5" /> Depart
                             </Button>
                           )}
                           {isVisited && (
-                            <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-400">Done</Badge>
+                            <Badge variant="secondary" className="text-xs bg-cream/8 text-parchment-dim">Done</Badge>
                           )}
                         </div>
                       </div>
@@ -389,7 +389,7 @@ export default function LeaderPage() {
             )
           })}
           {pubs.length === 0 && (
-            <p className="text-center text-gray-500 py-6 text-sm">No pubs added yet</p>
+            <p className="text-center text-parchment py-6 text-sm">No pubs added yet</p>
           )}
         </div>
       </div>

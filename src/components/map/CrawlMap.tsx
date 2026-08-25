@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import type { Pub, LiveLocation, LeaderLocation } from '@/lib/types'
 
-const LEADER_COLORS = ['#8b5cf6', '#10b981', '#3b82f6', '#f59e0b', '#ec4899']
+const LEADER_COLORS = ['#c8793a', '#93a67d', '#ecb063', '#9c4a30', '#bfaf98']
 
 interface Props {
   pubs: Pub[]
@@ -45,31 +45,31 @@ export default function CrawlMap({ pubs, location, leaderLocations = [], schedul
       const map = L.map(mapRef.current!, { zoomControl: true }).setView(center, 13)
       mapInstanceRef.current = map
 
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
         maxZoom: 19,
       }).addTo(map)
 
       if (pubsWithCoords.length > 1) {
         const coords = pubsWithCoords.map(p => [p.lat!, p.lng!] as [number, number])
-        routeRef.current = L.polyline(coords, { color: '#f97316', weight: 3, opacity: 0.7, dashArray: '6 4' }).addTo(map)
+        routeRef.current = L.polyline(coords, { color: '#c8793a', weight: 3, opacity: 0.75, dashArray: '6 4' }).addTo(map)
       }
 
       pubsWithCoords.forEach((pub, i) => {
-        const color = pub.status === 'visited' ? '#9ca3af' : pub.status === 'current' ? '#f97316' : '#1d4ed8'
+        const color = pub.status === 'visited' ? '#93a67d' : pub.status === 'current' ? '#c8793a' : '#8c7f6c'
         const icon = L.divIcon({
-          html: `<div style="background:${color};color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;box-shadow:0 2px 4px rgba(0,0,0,0.3)">${i + 1}</div>`,
+          html: `<div style="background:${color};color:#16120e;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.5)">${i + 1}</div>`,
           className: '',
           iconSize: [28, 28],
           iconAnchor: [14, 14],
         })
         const scheduled = scheduledTimes?.get(pub.id)
         const timeHtml = scheduled
-          ? `<br><span style="color:#9ca3af;font-size:11px">🕐 ${scheduled.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</span>`
+          ? `<br><span style="color:#bfaf98;font-size:11px">🕐 ${scheduled.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</span>`
           : ''
         const marker = L.marker([pub.lat!, pub.lng!], { icon })
           .addTo(map)
-          .bindPopup(`<strong>${pub.name}</strong>${pub.address ? `<br><span style="color:#6b7280;font-size:12px">${pub.address}</span>` : ''}${timeHtml}`)
+          .bindPopup(`<strong>${pub.name}</strong>${pub.address ? `<br><span style="color:#bfaf98;font-size:12px">${pub.address}</span>` : ''}${timeHtml}`)
         markersRef.current.push(marker)
       })
 
@@ -140,7 +140,7 @@ export default function CrawlMap({ pubs, location, leaderLocations = [], schedul
   return (
     <>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-      <div className="w-full h-full" style={{ filter: 'saturate(1.15) brightness(1.02)' }}>
+      <div className="w-full h-full" style={{ filter: 'saturate(1.1)' }}>
         <div ref={mapRef} className="w-full h-full" />
       </div>
     </>
@@ -176,5 +176,5 @@ function timeAgo(iso: string): string {
 }
 
 function buildLeaderPopup(name: string, updatedAt: string): string {
-  return `<strong>${name}</strong><br><span style="color:#9ca3af;font-size:11px">📍 Updated ${timeAgo(updatedAt)}</span>`
+  return `<strong>${name}</strong><br><span style="color:#bfaf98;font-size:11px">📍 Updated ${timeAgo(updatedAt)}</span>`
 }

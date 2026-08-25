@@ -41,9 +41,9 @@ function Stars({ value, size = 'w-8 h-8', gap = 'gap-1.5', onRate }: {
         const fillPct = value >= s ? 100 : value >= s - 0.5 ? 50 : 0
         return (
           <div key={s} className={cn('relative', size)}>
-            <Star className={cn(size, 'text-gray-200')} />
+            <Star className={cn(size, 'text-parchment-dim')} />
             <div className="absolute inset-0 overflow-hidden" style={{ width: `${fillPct}%` }}>
-              <Star className={cn(size, 'fill-amber-400 text-amber-400')} />
+              <Star className={cn(size, 'fill-copper-bright text-copper-bright')} />
             </div>
             {onRate && (
               <>
@@ -149,15 +149,15 @@ export default function PubCard({ pub, index, ratings, isParticipant, myRating, 
   const hasMyDrinks = hasAnyDrinks(drinks)
 
   const numberCircleClass = {
-    current: 'bg-gradient-to-br from-orange-500 to-rose-500 text-white shadow-sm shadow-orange-200',
-    visited: 'bg-gray-200 text-gray-500',
-    upcoming: 'bg-white border-2 border-gray-300 text-gray-500',
+    current: 'bg-gradient-to-br from-copper to-ember text-cream shadow-sm shadow-orange-200',
+    visited: 'bg-cream/12 text-parchment',
+    upcoming: 'bg-surface-raised border-2 border-cream/20 text-parchment',
   }[pub.status]
 
   return (
     <Card id={`pub-card-${pub.id}`} className={cn(
       'transition-all',
-      pub.status === 'current' && 'ring-2 ring-orange-400 shadow-md shadow-orange-100',
+      pub.status === 'current' && 'ring-2 ring-copper/50 shadow-md shadow-orange-100',
       pub.status === 'visited' && 'opacity-75',
     )}>
       <CardContent className="p-4">
@@ -167,14 +167,14 @@ export default function PubCard({ pub, index, ratings, isParticipant, myRating, 
               {pub.status === 'visited' ? <Check className="w-4 h-4" /> : index + 1}
             </div>
             <div className="min-w-0">
-              <p className={cn('font-semibold truncate', pub.status === 'current' && 'text-orange-900')}>{pub.name}</p>
+              <p className={cn('font-semibold truncate', pub.status === 'current' && 'text-cream')}>{pub.name}</p>
               {pub.address && (
-                <p className="text-xs text-gray-500 truncate flex items-center gap-1">
+                <p className="text-xs text-parchment truncate flex items-center gap-1">
                   <MapPin className="w-3 h-3 shrink-0" />{pub.address}
                 </p>
               )}
               {pub.status === 'upcoming' && (
-                <p className="text-xs text-orange-600 font-medium mt-0.5 flex items-center gap-1">
+                <p className="text-xs text-copper-bright font-medium mt-0.5 flex items-center gap-1">
                   <Clock className="w-3 h-3 shrink-0" />{pub.planned_dwell_minutes} min drink time
                 </p>
               )}
@@ -183,7 +183,7 @@ export default function PubCard({ pub, index, ratings, isParticipant, myRating, 
                 <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                   {score > 0 && <Stars value={score} size="w-3 h-3" gap="gap-0.5" />}
                   {hasMyDrinks && (
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-parchment-dim">
                       {DRINK_TYPES.filter(({ key }) => drinks[key] > 0).map(({ key, emoji }) => `${emoji}${drinks[key]}`).join(' ')}
                     </span>
                   )}
@@ -193,38 +193,38 @@ export default function PubCard({ pub, index, ratings, isParticipant, myRating, 
           </div>
           <div className="flex items-center gap-2 shrink-0">
             {pub.status === 'current' && (
-              <Badge className="bg-gradient-to-r from-orange-500 to-rose-500 text-white border-0 text-xs">
+              <Badge className="bg-gradient-to-r from-copper to-ember text-cream border-0 text-xs">
                 Here now
               </Badge>
             )}
             {pub.status === 'visited' && avgRating && (
-              <span className="flex items-center gap-1 text-sm font-medium text-amber-600">
-                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+              <span className="flex items-center gap-1 text-sm font-medium text-copper-bright">
+                <Star className="w-3.5 h-3.5 fill-copper-bright text-copper-bright" />
                 {avgRating.toFixed(1)}
               </span>
             )}
             {pub.status === 'visited' && isLocked && (
-              <Lock className="w-3.5 h-3.5 text-gray-300" />
+              <Lock className="w-3.5 h-3.5 text-parchment-dim" />
             )}
             {pub.status === 'upcoming' && isEnRoute && (
-              <Badge className="bg-blue-500 text-white border-0 text-xs animate-pulse">
+              <Badge className="bg-copper text-cream border-0 text-xs animate-pulse">
                 En route
               </Badge>
             )}
             {pub.status === 'upcoming' && !isEnRoute && eta && crawlStarted && (
-              <span className="text-xs text-gray-500 flex items-center gap-1">
+              <span className="text-xs text-parchment flex items-center gap-1">
                 <Clock className="w-3 h-3" />
                 {minsAway != null && minsAway > 0 ? `~${minsAway}m` : formatETA(eta)}
               </span>
             )}
-            {expanded ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+            {expanded ? <ChevronUp className="w-4 h-4 text-parchment-dim" /> : <ChevronDown className="w-4 h-4 text-parchment-dim" />}
           </div>
         </div>
 
         {expanded && (
           <div className="mt-3 space-y-3 border-t pt-3">
             {eta && pub.status === 'upcoming' && (
-              <div className="flex justify-end text-sm text-gray-500">
+              <div className="flex justify-end text-sm text-parchment">
                 <span>ETA {formatETA(eta)}</span>
               </div>
             )}
@@ -234,29 +234,29 @@ export default function PubCard({ pub, index, ratings, isParticipant, myRating, 
                 href={`https://maps.google.com/maps?daddr=${pub.lat},${pub.lng}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800"
+                className="inline-flex items-center gap-1 text-xs text-copper-bright hover:text-cream"
               >
                 <Navigation className="w-3 h-3" /> Get directions
               </a>
             )}
 
             {pub.status === 'current' ? (
-              <p className="text-xs text-gray-400 italic flex items-center gap-1">
+              <p className="text-xs text-parchment-dim italic flex items-center gap-1">
                 <Clock className="w-3 h-3 shrink-0" /> Awaiting reviews — revealed once the group moves on
               </p>
             ) : ratings.length > 0 && (
               <div className="space-y-1.5">
                 <div className="flex items-center gap-2">
                   <Stars value={avgRating ?? 0} size="w-4 h-4" gap="gap-0.5" />
-                  <span className="text-xs text-gray-500">{ratings.length} rating{ratings.length !== 1 ? 's' : ''}</span>
+                  <span className="text-xs text-parchment">{ratings.length} rating{ratings.length !== 1 ? 's' : ''}</span>
                 </div>
                 {visibleReviews.map(r => (
-                  <p key={r.id} className="text-xs text-gray-600 italic bg-gray-50 rounded-lg px-3 py-1.5 whitespace-pre-wrap">"{r.comment}"</p>
+                  <p key={r.id} className="text-xs text-parchment italic bg-ink rounded-lg px-3 py-1.5 whitespace-pre-wrap">"{r.comment}"</p>
                 ))}
                 {remainingReviewCount > 0 && (
                   <button
                     onClick={() => setVisibleCommentCount(c => c + COMMENTS_PAGE_SIZE)}
-                    className="text-xs text-blue-600 hover:text-blue-800 font-medium"
+                    className="text-xs text-copper-bright hover:text-cream font-medium"
                   >
                     Show {Math.min(remainingReviewCount, COMMENTS_PAGE_SIZE)} more review{Math.min(remainingReviewCount, COMMENTS_PAGE_SIZE) !== 1 ? 's' : ''} ({remainingReviewCount} left)
                   </button>
@@ -267,14 +267,14 @@ export default function PubCard({ pub, index, ratings, isParticipant, myRating, 
             {isParticipant && (pub.status === 'current' || pub.status === 'visited') && crawlId && (
               <div className="space-y-2 border-t pt-3">
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Your drinks here</p>
-                  {isLocked && <span className="text-[10px] text-gray-400 flex items-center gap-1"><Lock className="w-3 h-3" /> Locked</span>}
+                  <p className="text-xs font-semibold text-parchment uppercase tracking-wide">Your drinks here</p>
+                  {isLocked && <span className="text-[10px] text-parchment-dim flex items-center gap-1"><Lock className="w-3 h-3" /> Locked</span>}
                 </div>
                 {drinkSaveError && (
                   <p className="text-xs text-red-500">⚠ Couldn't save that — check your connection and try tapping again.</p>
                 )}
                 {isLocked ? (
-                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 py-1">
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-parchment py-1">
                     {DRINK_TYPES.map(({ key, emoji }) => (
                       <span key={key}>{emoji} {drinks[key]}</span>
                     ))}
@@ -287,17 +287,17 @@ export default function PubCard({ pub, index, ratings, isParticipant, myRating, 
                     const display = half ? (whole === 0 ? '½' : `${whole}½`) : String(whole)
                     return (
                       <div key={key} className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">{emoji} {label}</span>
+                        <span className="text-sm text-parchment">{emoji} {label}</span>
                         <div className="flex items-center gap-3">
                           <button
                             onClick={() => changeDrink(key, -step)}
                             disabled={val === 0}
-                            className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-30 text-gray-700 font-bold text-lg flex items-center justify-center"
+                            className="w-8 h-8 rounded-full bg-cream/8 hover:bg-cream/12 disabled:opacity-30 text-cream font-bold text-lg flex items-center justify-center"
                           >−</button>
-                          <span className="tabular-nums w-6 text-center font-bold text-gray-900">{display}</span>
+                          <span className="tabular-nums w-6 text-center font-bold text-cream">{display}</span>
                           <button
                             onClick={() => changeDrink(key, step)}
-                            className="w-8 h-8 rounded-full bg-orange-100 hover:bg-orange-200 text-orange-700 font-bold text-lg flex items-center justify-center"
+                            className="w-8 h-8 rounded-full bg-copper/15 hover:bg-copper/25 text-copper-bright font-bold text-lg flex items-center justify-center"
                           >+</button>
                         </div>
                       </div>
@@ -310,10 +310,10 @@ export default function PubCard({ pub, index, ratings, isParticipant, myRating, 
             {isParticipant && (pub.status === 'current' || pub.status === 'visited') && (
               <div className="space-y-2 border-t pt-3">
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+                  <p className="text-xs font-semibold text-parchment uppercase tracking-wide">
                     {score > 0 ? 'Your rating' : 'Rate this pub'}
                   </p>
-                  {isLocked && <span className="text-[10px] text-gray-400 flex items-center gap-1"><Lock className="w-3 h-3" /> Locked</span>}
+                  {isLocked && <span className="text-[10px] text-parchment-dim flex items-center gap-1"><Lock className="w-3 h-3" /> Locked</span>}
                 </div>
                 <Stars value={score} onRate={isLocked ? undefined : s => { hasEditedRatingRef.current = true; setScore(s) }} />
                 {!isLocked && (
@@ -328,7 +328,7 @@ export default function PubCard({ pub, index, ratings, isParticipant, myRating, 
                       size="sm"
                       onClick={submitRating}
                       disabled={score === 0 || submitting}
-                      className="w-full bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white border-0"
+                      className="w-full bg-gradient-to-r from-copper to-ember hover:from-copper-bright hover:to-ember-bright text-cream border-0"
                     >
                       {submitting ? 'Saving…' : justSaved ? '✓ Saved!' : score > 0 && myRating ? 'Update rating' : 'Submit rating'}
                     </Button>

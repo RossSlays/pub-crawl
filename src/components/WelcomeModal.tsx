@@ -49,23 +49,23 @@ export default function WelcomeModal({ crawlName, subtitle }: Props) {
   if (!show) return null
 
   return (
-    <div className="fixed inset-0 z-[5000] bg-gradient-to-b from-orange-500 to-rose-500 overflow-y-auto">
+    <div className="fixed inset-0 z-[5000] bg-gradient-to-b from-copper to-ember overflow-y-auto">
       <div className="min-h-full flex items-center justify-center px-6 py-10">
-        <div className="w-full max-w-sm text-white text-center">
+        <div className="w-full max-w-sm text-cream text-center">
           <Beer className="w-14 h-14 mx-auto mb-4" />
           {subtitle && (
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-100 mb-2">🎉 {subtitle}</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cream/70 mb-2">🎉 {subtitle}</p>
           )}
-          <h1 className="text-3xl font-black mb-2">{crawlName ?? 'Welcome!'}</h1>
-          <p className="text-white/80 mb-6">Here's what you can do here 👇</p>
+          <h1 className="font-display font-semibold text-3xl mb-2">{crawlName ?? 'Welcome!'}</h1>
+          <p className="text-cream/80 mb-6">Here's what you can do here 👇</p>
 
           <div className="space-y-3 text-left mb-8">
             {POINTS.map(({ icon: Icon, title, body }) => (
-              <div key={title} className="flex gap-3 items-start bg-white/10 rounded-2xl p-3.5">
+              <div key={title} className="flex gap-3 items-start bg-cream/10 rounded-2xl p-3.5">
                 <Icon className="w-5 h-5 shrink-0 mt-0.5" />
                 <div>
                   <p className="font-bold text-sm">{title}</p>
-                  <p className="text-xs text-white/70 mt-0.5">{body}</p>
+                  <p className="text-xs text-cream/70 mt-0.5">{body}</p>
                 </div>
               </div>
             ))}
@@ -73,7 +73,7 @@ export default function WelcomeModal({ crawlName, subtitle }: Props) {
 
           <Button
             onClick={dismiss}
-            className="w-full h-14 rounded-2xl bg-white text-orange-600 hover:bg-orange-50 font-black text-lg"
+            className="w-full h-14 rounded-2xl bg-surface-raised text-copper-bright hover:bg-copper/10 font-black text-lg"
           >
             Let's go 🍺
           </Button>

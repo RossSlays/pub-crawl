@@ -25,19 +25,19 @@ export default function LeaderJoinPage() {
 
   if (status === 'error') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-amber-50">
+      <div className="min-h-screen flex items-center justify-center bg-copper/10">
         <div className="text-center">
           <p className="text-2xl mb-2">Invalid leader link</p>
-          <p className="text-gray-500">Check with the crawl organiser for the correct link.</p>
+          <p className="text-parchment">Check with the crawl organiser for the correct link.</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-amber-50">
+    <div className="min-h-screen flex items-center justify-center bg-copper/10">
       <div className="text-center">
-        <Beer className="w-12 h-12 text-amber-600 mx-auto mb-4 animate-bounce" />
+        <Beer className="w-12 h-12 text-copper-bright mx-auto mb-4 animate-bounce" />
         <p className="text-xl font-semibold">Setting up leader access…</p>
       </div>
     </div>

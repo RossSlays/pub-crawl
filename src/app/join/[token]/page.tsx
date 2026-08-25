@@ -40,11 +40,11 @@ export default function JoinPage() {
 
   if (status === 'error') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-orange-500 to-rose-500">
-        <div className="text-center text-white px-6">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-copper to-ember">
+        <div className="text-center text-cream px-6">
           <div className="text-4xl mb-4">😬</div>
           <p className="text-xl font-bold mb-2">Invalid invite link</p>
-          <p className="text-white/70 text-sm">Check with the crawl organiser for the correct link.</p>
+          <p className="text-cream/70 text-sm">Check with the crawl organiser for the correct link.</p>
         </div>
       </div>
     )
@@ -52,24 +52,24 @@ export default function JoinPage() {
 
   if (status === 'joining') {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-orange-500 to-rose-500">
-        <div className="text-center text-white">
-          <Beer className="w-12 h-12 text-white mx-auto animate-bounce" />
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-copper to-ember">
+        <div className="text-center text-cream">
+          <Beer className="w-12 h-12 text-cream mx-auto animate-bounce" />
           <p className="text-xl font-black mt-4">Joining the crawl…</p>
-          <p className="text-white/60 text-sm mt-1">Get ready to party 🍺</p>
+          <p className="text-cream/60 text-sm mt-1">Get ready to party 🍺</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-orange-500 to-rose-500 px-6">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-copper to-ember px-6">
       <div className="w-full max-w-sm">
-        <div className="text-center text-white mb-8">
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-100 mb-4">🎉 {subtitle || "Jack's 30th Birthday"}</p>
-          <Beer className="w-14 h-14 text-white mx-auto mb-4" />
-          <h1 className="text-3xl font-black">You're invited!</h1>
-          <p className="text-white/70 mt-2">Enter your name and email so the group knows you're here.</p>
+        <div className="text-center text-cream mb-8">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cream/70 mb-4">🎉 {subtitle || "Jack's 30th Birthday"}</p>
+          <Beer className="w-14 h-14 text-cream mx-auto mb-4" />
+          <h1 className="font-display font-semibold text-3xl">You're invited!</h1>
+          <p className="text-cream/70 mt-2">Enter your name and email so the group knows you're here.</p>
         </div>
 
         <form onSubmit={join} className="space-y-3">
@@ -78,22 +78,22 @@ export default function JoinPage() {
             placeholder="Your name"
             value={name}
             onChange={e => setName(e.target.value)}
-            className="bg-white/20 border-white/30 text-white placeholder:text-white/50 text-center text-lg font-semibold h-14 rounded-2xl focus:bg-white/30 focus:border-white"
+            className="bg-cream/20 border-cream/30 text-cream placeholder:text-cream/50 text-center text-lg font-semibold h-14 rounded-2xl focus:bg-cream/30 focus:border-cream"
           />
           <Input
             type="email"
             placeholder="Your email"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            className="bg-white/20 border-white/30 text-white placeholder:text-white/50 text-center text-lg font-semibold h-14 rounded-2xl focus:bg-white/30 focus:border-white"
+            className="bg-cream/20 border-cream/30 text-cream placeholder:text-cream/50 text-center text-lg font-semibold h-14 rounded-2xl focus:bg-cream/30 focus:border-cream"
           />
-          <p className="text-white/50 text-xs text-center px-2">
+          <p className="text-cream/50 text-xs text-center px-2">
             Just used so rejoining on a different phone or browser keeps your ratings and drinks together — never shown to anyone else.
           </p>
           <Button
             type="submit"
             disabled={!name.trim() || !emailValid}
-            className="w-full h-14 rounded-2xl bg-white text-orange-600 hover:bg-orange-50 font-black text-lg disabled:opacity-40"
+            className="w-full h-14 rounded-2xl bg-surface-raised text-copper-bright hover:bg-copper/10 font-black text-lg disabled:opacity-40"
           >
             Join the crawl 🍺
           </Button>

@@ -4,8 +4,8 @@
   "description": "Live pub crawl tracker",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#f59e0b",
+  "background_color": "#16120e",
+  "theme_color": "#16120e",
   "orientation": "portrait",
   "icons": [
     { "src": "/icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
