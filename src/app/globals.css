@@ -82,7 +82,13 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Leaflet dark-theme overrides (map tiles are CARTO dark_all; this restyles Leaflet's own chrome) */
+/* Leaflet dark-theme overrides. The tile imagery is the well-labelled CARTO
+   "voyager" set (much higher legibility than CARTO's native dark tiles) run
+   through a CSS invert to read as a dark map — scoped to the tile pane only,
+   so markers/popups/controls keep their true copper/sage/ember colors. */
+.leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.85) saturate(1.5);
+}
 .leaflet-popup-content-wrapper {
   background: var(--color-surface-raised);
   color: var(--color-cream);

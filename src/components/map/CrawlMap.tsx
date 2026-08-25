@@ -45,7 +45,7 @@ export default function CrawlMap({ pubs, location, leaderLocations = [], schedul
       const map = L.map(mapRef.current!, { zoomControl: true }).setView(center, 13)
       mapInstanceRef.current = map
 
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
         maxZoom: 19,
       }).addTo(map)
@@ -56,7 +56,7 @@ export default function CrawlMap({ pubs, location, leaderLocations = [], schedul
       }
 
       pubsWithCoords.forEach((pub, i) => {
-        const color = pub.status === 'visited' ? '#93a67d' : pub.status === 'current' ? '#c8793a' : '#8c7f6c'
+        const color = pub.status === 'visited' ? '#93a67d' : pub.status === 'current' ? '#c8793a' : '#f4ecdd'
         const icon = L.divIcon({
           html: `<div style="background:${color};color:#16120e;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.5)">${i + 1}</div>`,
           className: '',
@@ -140,7 +140,7 @@ export default function CrawlMap({ pubs, location, leaderLocations = [], schedul
   return (
     <>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-      <div className="w-full h-full" style={{ filter: 'saturate(1.1)' }}>
+      <div className="w-full h-full">
         <div ref={mapRef} className="w-full h-full" />
       </div>
     </>
