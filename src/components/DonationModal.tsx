@@ -7,9 +7,12 @@ interface Props {
   crawlId: string
   donationUrl: string | null
   active: boolean
+  /** Bypasses the once-ever localStorage gate — used by the admin preview button. */
+  forceOpen?: boolean
+  onForceClose?: () => void
 }
 
-export default function DonationModal({ crawlId, donationUrl, active }: Props) {
+export default function DonationModal({ crawlId, donationUrl, active, forceOpen, onForceClose }: Props) {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
@@ -19,11 +22,15 @@ export default function DonationModal({ crawlId, donationUrl, active }: Props) {
   }, [active, crawlId])
 
   function dismiss() {
+    if (forceOpen) {
+      onForceClose?.()
+      return
+    }
     try { localStorage.setItem(`donation-modal-seen-${crawlId}`, '1') } catch { /* private browsing */ }
     setShow(false)
   }
 
-  if (!show) return null
+  if (!show && !forceOpen) return null
 
   return (
     <div className="fixed inset-0 z-[2500] flex items-center justify-center bg-black/60 backdrop-blur-sm px-5">

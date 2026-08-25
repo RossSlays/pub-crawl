@@ -18,6 +18,7 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import DwellAdjuster from '@/components/DwellAdjuster'
+import DonationModal from '@/components/DonationModal'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -354,6 +355,7 @@ export default function AdminPage() {
   const [crawlName, setCrawlName] = useState('')
   const [eventLabel, setEventLabel] = useState('')
   const [donationUrl, setDonationUrl] = useState('')
+  const [previewDonation, setPreviewDonation] = useState(false)
   const [crawlDate, setCrawlDate] = useState(new Date().toISOString().split('T')[0])
   const [crawlStartTime, setCrawlStartTime] = useState('')
   const [leaders, setLeaders] = useState<Leader[]>([])
@@ -828,9 +830,19 @@ export default function AdminPage() {
                     Save
                   </Button>
                 </div>
-                <p className="text-[10px] text-gray-400 -mt-2 ml-6">
-                  Shown in the &quot;instead of buying Jack a pint&quot; modal, once someone&apos;s checked into their 3rd pub.
-                </p>
+                <div className="flex items-center justify-between -mt-2 ml-6">
+                  <p className="text-[10px] text-gray-400">
+                    Shown in the &quot;instead of buying Jack a pint&quot; modal, once someone&apos;s checked into their 3rd pub.
+                  </p>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="text-[10px] h-auto py-0.5 px-2 text-violet-600 hover:text-violet-700 hover:bg-violet-50 shrink-0"
+                    onClick={() => setPreviewDonation(true)}
+                  >
+                    Preview
+                  </Button>
+                </div>
 
                 {/* Date row */}
                 <div className="flex items-center gap-2">
@@ -1293,6 +1305,15 @@ export default function AdminPage() {
         />
       )}
       {showQR && joinUrl && <QRModal url={joinUrl} title="Participant QR Code" onClose={() => setShowQR(false)} />}
+      {crawl && (
+        <DonationModal
+          crawlId={crawl.id}
+          donationUrl={donationUrl.trim() || null}
+          active={false}
+          forceOpen={previewDonation}
+          onForceClose={() => setPreviewDonation(false)}
+        />
+      )}
       {leaderQrUrl && (
         <QRModal
           url={leaderQrUrl}
