@@ -5,6 +5,7 @@ export interface Crawl {
   id: string
   name: string
   subtitle: string | null
+  donation_url: string | null
   date: string
   start_time: string | null  // HH:MM:SS from postgres time type
   status: CrawlStatus

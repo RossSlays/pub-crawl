@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { Beer, Plus, Trash2, MapPin, Clock, Navigation, QrCode, CheckCircle, ArrowRight, Users, Copy, Check, ChevronDown, ChevronUp, WifiOff, Wifi, RefreshCw, Footprints, GripVertical, Search, Megaphone, Pencil, Sparkles } from 'lucide-react'
+import { Beer, Plus, Trash2, MapPin, Clock, Navigation, QrCode, CheckCircle, ArrowRight, Users, Copy, Check, ChevronDown, ChevronUp, WifiOff, Wifi, RefreshCw, Footprints, GripVertical, Search, Megaphone, Pencil, Sparkles, Heart } from 'lucide-react'
 import {
   DndContext,
   closestCenter,
@@ -353,6 +353,7 @@ export default function AdminPage() {
   const [trackingLocation, setTrackingLocation] = useState(false)
   const [crawlName, setCrawlName] = useState('')
   const [eventLabel, setEventLabel] = useState('')
+  const [donationUrl, setDonationUrl] = useState('')
   const [crawlDate, setCrawlDate] = useState(new Date().toISOString().split('T')[0])
   const [crawlStartTime, setCrawlStartTime] = useState('')
   const [leaders, setLeaders] = useState<Leader[]>([])
@@ -378,6 +379,7 @@ export default function AdminPage() {
     setCrawl(crawlRes.crawl)
     setCrawlName(crawlRes.crawl?.name ?? '')
     setEventLabel(crawlRes.crawl?.subtitle ?? '')
+    setDonationUrl(crawlRes.crawl?.donation_url ?? '')
     setCrawlDate(crawlRes.crawl?.date ?? new Date().toISOString().split('T')[0])
     setCrawlStartTime(crawlRes.crawl?.start_time?.slice(0, 5) ?? '')
     setPubs((pubsRes.pubs ?? []).sort((a: Pub, b: Pub) => a.order_index - b.order_index))
@@ -798,6 +800,37 @@ export default function AdminPage() {
                     Save
                   </Button>
                 </div>
+
+                {/* Donation link row */}
+                <div className="flex items-center gap-2">
+                  <Heart className="w-4 h-4 text-gray-400 shrink-0" />
+                  <Label className="text-xs text-gray-600 shrink-0">Donation link</Label>
+                  <Input
+                    value={donationUrl}
+                    onChange={e => setDonationUrl(e.target.value)}
+                    placeholder="https://..."
+                    className="flex-1 text-sm"
+                  />
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={async () => {
+                      const res = await fetch('/api/crawl', {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+                        body: JSON.stringify({ id: crawl.id, donation_url: donationUrl.trim() || null }),
+                      })
+                      const { crawl: c } = await res.json()
+                      setCrawl(c)
+                    }}
+                  >
+                    Save
+                  </Button>
+                </div>
+                <p className="text-[10px] text-gray-400 -mt-2 ml-6">
+                  Shown in the &quot;instead of buying Jack a pint&quot; modal, once someone&apos;s checked into their 3rd pub.
+                </p>
 
                 {/* Date row */}
                 <div className="flex items-center gap-2">

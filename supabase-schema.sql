@@ -4,6 +4,7 @@ create table if not exists crawl (
   id uuid primary key default gen_random_uuid(),
   name text not null default 'Thames Pub Crawl',
   subtitle text,  -- eyebrow label shown above the crawl name, e.g. "Jack's 30th Birthday"
+  donation_url text,  -- link for the charity donation modal shown after the 3rd pub check-in
   date date not null,
   status text not null default 'pending' check (status in ('pending', 'active', 'completed')),
   join_token text not null unique default encode(gen_random_bytes(12), 'hex'),

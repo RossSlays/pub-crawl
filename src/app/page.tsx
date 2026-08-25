@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic'
 import { supabase } from '@/lib/supabase'
 import StatusBar from '@/components/StatusBar'
 import WelcomeModal from '@/components/WelcomeModal'
+import DonationModal from '@/components/DonationModal'
 import PubCard from '@/components/PubCard'
 import RecapCard, { type RecapData } from '@/components/RecapCard'
 import { Beer, Map as MapIcon, List, Settings, Navigation, Share2, Users } from 'lucide-react'
@@ -438,6 +439,12 @@ export default function HomePage() {
   const sortedPubs = [...pubs].sort((a, b) => a.order_index - b.order_index)
   const isEnRoute = crawl?.status === 'active' && !currentPub && sortedPubs.some(p => p.status === 'visited')
   const isLastPub = currentPub ? currentPub.id === sortedPubs[sortedPubs.length - 1]?.id : false
+  // Covers both the normal case (fires once the group's 3rd pub check-in comes
+  // through over realtime) and someone joining late in the crawl (the count is
+  // already >= 3 the moment their state loads, so it shows right away instead
+  // of waiting for an arrival event that already happened).
+  const pubsCheckedIn = sortedPubs.filter(p => p.status !== 'upcoming').length
+  const showDonationModal = isParticipantLike && pubsCheckedIn >= 3
 
   const recapData: RecapData | null = crawl ? (() => {
     const visited = sortedPubs.filter(p => p.status === 'visited' || p.status === 'current')
@@ -966,6 +973,10 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+      )}
+
+      {crawl?.id && (
+        <DonationModal crawlId={crawl.id} donationUrl={crawl.donation_url} active={showDonationModal} />
       )}
 
       {/* Participants list modal */}
