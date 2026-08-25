@@ -90,14 +90,15 @@
   filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.85) saturate(1.5);
 }
 .leaflet-popup-content-wrapper {
-  background: var(--color-surface-raised);
-  color: var(--color-cream);
+  background: var(--color-surface-raised) !important;
+  color: var(--color-cream) !important;
   border: 1px solid rgb(244 236 221 / 12%);
   border-radius: 14px;
   box-shadow: 0 12px 30px -10px rgb(0 0 0 / 60%);
 }
-.leaflet-popup-content { font-family: var(--font-body); font-size: 0.8rem; }
-.leaflet-popup-tip { background: var(--color-surface-raised); box-shadow: none; }
+.leaflet-popup-content { font-family: var(--font-body); font-size: 0.8rem; color: var(--color-cream) !important; }
+.leaflet-popup-content strong { color: var(--color-cream) !important; }
+.leaflet-popup-tip { background: var(--color-surface-raised) !important; box-shadow: none; }
 .leaflet-popup-close-button { color: var(--color-parchment) !important; }
 .leaflet-control-zoom a {
   background: var(--color-surface-raised) !important;
