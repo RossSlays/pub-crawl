@@ -135,9 +135,14 @@ function drawCard(canvas: HTMLCanvasElement, d: RecapData) {
   ctx.beginPath(); ctx.moveTo(100, 420); ctx.lineTo(W - 100, 420); ctx.stroke()
 
   // ── Big stats row — centered in the remaining space ───────────────────────────
+  // Prefer the viewer's own drinks (this is their personal recap); fall back to
+  // the group total for spectators, who have no drinks logged of their own.
+  const drinksLabel = d.myDrinks ? 'YOUR DRINKS' : 'DRINKS'
+  const drinksTotal = totalDrinks(d.myDrinks ?? d.groupDrinks)
+
   const statsY = 420 + (H - 100 - 420) / 2
   bigStat(ctx, W / 4, statsY, `${d.pubsVisited}/${d.totalPubs}`, 'PUBS', '📍')
-  bigStat(ctx, (W * 3) / 4, statsY, String(totalDrinks(d.groupDrinks)), 'DRINKS', '🍻')
+  bigStat(ctx, (W * 3) / 4, statsY, String(drinksTotal), drinksLabel, '🍻')
 
   // ── Footer ────────────────────────────────────────────────────────────────────
   text(ctx, 'pub crawl app', W / 2, H - 70, {
