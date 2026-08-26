@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Beer, Map as MapIcon, ListChecks, Navigation } from 'lucide-react'
+import { Beer, Map as MapIcon, ListChecks } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const STORAGE_KEY = 'welcome-seen-v1'
@@ -26,11 +26,6 @@ const POINTS = [
     icon: MapIcon,
     title: 'Map & Pubs tabs',
     body: 'Switch between the live map and the full pub-by-pub schedule.',
-  },
-  {
-    icon: Navigation,
-    title: 'Live GPS',
-    body: "Crawl leaders can share their location, so everyone sees real-time ETAs to the next stop.",
   },
 ]
 
