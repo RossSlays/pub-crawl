@@ -45,8 +45,8 @@ export default function CrawlMap({ pubs, location, leaderLocations = [], schedul
       const map = L.map(mapRef.current!, { zoomControl: true }).setView(center, 13)
       mapInstanceRef.current = map
 
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19,
       }).addTo(map)
 
@@ -144,7 +144,7 @@ export default function CrawlMap({ pubs, location, leaderLocations = [], schedul
   return (
     <>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-      <div className="w-full h-full" style={{ filter: 'saturate(1.15) brightness(1.02)' }}>
+      <div className="w-full h-full">
         <div ref={mapRef} className="w-full h-full" />
       </div>
     </>
