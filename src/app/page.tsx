@@ -88,6 +88,8 @@ export default function HomePage() {
   const [participantCount, setParticipantCount] = useState<number | null>(null)
   const [showParticipants, setShowParticipants] = useState(false)
   const [showLeaderboard, setShowLeaderboard] = useState(false)
+  const [donationChipVisible, setDonationChipVisible] = useState(false)
+  const [reopenDonation, setReopenDonation] = useState(false)
   const [participantNames, setParticipantNames] = useState<string[] | null>(null)
   const [broadcast, setBroadcast] = useState<{ message: string } | null>(null)
   const broadcastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -247,6 +249,15 @@ export default function HomePage() {
       setLoading(false)
     }
   }, [fetchDrinks, fetchMyRatings, fetchLeaderboard, fetchParticipantCount, fetchWeather, checkForMissedBroadcast])
+
+  // Picks up a donation-modal dismissal from an earlier session so the header
+  // "Donate" chip still shows up without needing to see the modal again.
+  useEffect(() => {
+    if (!crawl?.id) return
+    try {
+      if (localStorage.getItem(`donation-modal-seen-${crawl.id}`)) setDonationChipVisible(true)
+    } catch { /* private browsing */ }
+  }, [crawl?.id])
 
   useEffect(() => {
     fetch('/api/auth/role').then(r => r.json()).then(d => {
@@ -600,6 +611,14 @@ export default function HomePage() {
                       className="bg-white/15 hover:bg-white/25 transition-colors text-white text-xs font-medium px-2 py-0.5 rounded-full"
                     >
                       🏆 Leaderboard
+                    </button>
+                  )}
+                  {donationChipVisible && crawl?.donation_url && (
+                    <button
+                      onClick={() => setReopenDonation(true)}
+                      className="animate-pulse bg-linear-to-r from-violet-500 to-fuchsia-600 hover:from-violet-600 hover:to-fuchsia-700 transition-colors text-white text-xs font-bold px-2.5 py-0.5 rounded-full shadow-sm"
+                    >
+                      💜 Donate
                     </button>
                   )}
                 </div>
@@ -1013,7 +1032,14 @@ export default function HomePage() {
       )}
 
       {crawl?.id && (
-        <DonationModal crawlId={crawl.id} donationUrl={crawl.donation_url} active={showDonationModal} />
+        <DonationModal
+          crawlId={crawl.id}
+          donationUrl={crawl.donation_url}
+          active={showDonationModal}
+          forceOpen={reopenDonation}
+          onForceClose={() => setReopenDonation(false)}
+          onDismiss={() => setDonationChipVisible(true)}
+        />
       )}
 
       {/* Participants list modal */}

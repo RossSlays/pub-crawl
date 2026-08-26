@@ -7,12 +7,15 @@ interface Props {
   crawlId: string
   donationUrl: string | null
   active: boolean
-  /** Bypasses the once-ever localStorage gate — used by the admin preview button. */
+  /** Bypasses the once-ever localStorage gate — used by the admin preview button
+   *  and by the header's "Donate" chip re-opening it after a real dismiss. */
   forceOpen?: boolean
   onForceClose?: () => void
+  /** Fires once, the first time this is genuinely shown-and-dismissed (not a forceOpen preview/reopen). */
+  onDismiss?: () => void
 }
 
-export default function DonationModal({ crawlId, donationUrl, active, forceOpen, onForceClose }: Props) {
+export default function DonationModal({ crawlId, donationUrl, active, forceOpen, onForceClose, onDismiss }: Props) {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
@@ -28,6 +31,7 @@ export default function DonationModal({ crawlId, donationUrl, active, forceOpen,
     }
     try { localStorage.setItem(`donation-modal-seen-${crawlId}`, '1') } catch { /* private browsing */ }
     setShow(false)
+    onDismiss?.()
   }
 
   if (!show && !forceOpen) return null
