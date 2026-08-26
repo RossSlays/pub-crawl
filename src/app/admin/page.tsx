@@ -68,6 +68,7 @@ function PubForm({ crawlId, onAdd, adminKey }: { crawlId: string; onAdd: () => v
   const [lat, setLat] = useState('')
   const [lng, setLng] = useState('')
   const [dwell, setDwell] = useState('45')
+  const [isMeetingPoint, setIsMeetingPoint] = useState(false)
   const [saving, setSaving] = useState(false)
 
   // Autocomplete state
@@ -115,6 +116,7 @@ function PubForm({ crawlId, onAdd, adminKey }: { crawlId: string; onAdd: () => v
         lat: lat ? parseFloat(lat) : null,
         lng: lng ? parseFloat(lng) : null,
         planned_dwell_minutes: parseInt(dwell),
+        is_meeting_point: isMeetingPoint,
       }),
     })
     setSaving(false)
@@ -123,6 +125,7 @@ function PubForm({ crawlId, onAdd, adminKey }: { crawlId: string; onAdd: () => v
     setLat('')
     setLng('')
     setDwell('45')
+    setIsMeetingPoint(false)
     setQuery('')
     setResults([])
     onAdd()
@@ -172,10 +175,20 @@ function PubForm({ crawlId, onAdd, adminKey }: { crawlId: string; onAdd: () => v
         )}
       </div>
 
+      <label className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={isMeetingPoint}
+          onChange={e => setIsMeetingPoint(e.target.checked)}
+          className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-400"
+        />
+        This is a meeting point, not a pub (no ratings or drink logging)
+      </label>
+
       <div className="grid grid-cols-2 gap-2">
         <div className="col-span-2">
-          <Label className="text-xs">Pub name *</Label>
-          <Input value={name} onChange={e => setName(e.target.value)} placeholder="The Anchor" required />
+          <Label className="text-xs">{isMeetingPoint ? 'Meeting point name *' : 'Pub name *'}</Label>
+          <Input value={name} onChange={e => setName(e.target.value)} placeholder={isMeetingPoint ? 'Outside Greenwich Station' : 'The Anchor'} required />
         </div>
         <div className="col-span-2">
           <Label className="text-xs">Address</Label>
@@ -190,12 +203,12 @@ function PubForm({ crawlId, onAdd, adminKey }: { crawlId: string; onAdd: () => v
           <Input value={lng} onChange={e => setLng(e.target.value)} placeholder="-0.3037" type="number" step="any" />
         </div>
         <div className="col-span-2">
-          <Label className="text-xs">Dwell time (minutes)</Label>
+          <Label className="text-xs">{isMeetingPoint ? 'Time here before walking off (minutes)' : 'Dwell time (minutes)'}</Label>
           <Input value={dwell} onChange={e => setDwell(e.target.value)} type="number" min="5" max="240" />
         </div>
       </div>
       <Button type="submit" disabled={saving} className="w-full bg-indigo-600 hover:bg-indigo-700">
-        <Plus className="w-4 h-4 mr-1" />{saving ? 'Adding…' : 'Add pub'}
+        <Plus className="w-4 h-4 mr-1" />{saving ? 'Adding…' : isMeetingPoint ? 'Add meeting point' : 'Add pub'}
       </Button>
     </form>
   )
@@ -212,6 +225,7 @@ function EditPubModal({ pub, adminKey, onClose, onSaved }: {
   const [lat, setLat] = useState(pub.lat != null ? String(pub.lat) : '')
   const [lng, setLng] = useState(pub.lng != null ? String(pub.lng) : '')
   const [dwell, setDwell] = useState(String(pub.planned_dwell_minutes))
+  const [isMeetingPoint, setIsMeetingPoint] = useState(pub.is_meeting_point)
   const [saving, setSaving] = useState(false)
 
   async function save() {
@@ -229,6 +243,7 @@ function EditPubModal({ pub, adminKey, onClose, onSaved }: {
         lat: lat ? parseFloat(lat) : null,
         lng: lng ? parseFloat(lng) : null,
         planned_dwell_minutes: nextDwell,
+        is_meeting_point: isMeetingPoint,
       }),
     })
     setSaving(false)
@@ -243,11 +258,20 @@ function EditPubModal({ pub, adminKey, onClose, onSaved }: {
     <Dialog open onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit pub</DialogTitle>
+          <DialogTitle>{isMeetingPoint ? 'Edit meeting point' : 'Edit pub'}</DialogTitle>
         </DialogHeader>
         <div className="space-y-3 py-2">
+          <label className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={isMeetingPoint}
+              onChange={e => setIsMeetingPoint(e.target.checked)}
+              className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-400"
+            />
+            This is a meeting point, not a pub (no ratings or drink logging)
+          </label>
           <div>
-            <Label className="text-xs">Pub name *</Label>
+            <Label className="text-xs">{isMeetingPoint ? 'Meeting point name *' : 'Pub name *'}</Label>
             <Input value={name} onChange={e => setName(e.target.value)} />
           </div>
           <div>
@@ -265,7 +289,7 @@ function EditPubModal({ pub, adminKey, onClose, onSaved }: {
             </div>
           </div>
           <div>
-            <Label className="text-xs">Dwell time (minutes)</Label>
+            <Label className="text-xs">{isMeetingPoint ? 'Time here before walking off (minutes)' : 'Dwell time (minutes)'}</Label>
             <Input value={dwell} onChange={e => setDwell(e.target.value)} type="number" min="5" max="240" />
           </div>
           <Button onClick={save} disabled={saving || !name.trim()} className="w-full bg-indigo-600 hover:bg-indigo-700">
@@ -1091,7 +1115,7 @@ export default function AdminPage() {
             {/* Pub list */}
             <div className="space-y-2">
               <div className="flex items-center justify-between px-1">
-                <p className="font-semibold text-sm text-slate-700">Pubs ({pubs.length})</p>
+                <p className="font-semibold text-sm text-slate-700">Pubs ({pubs.filter(p => !p.is_meeting_point).length})</p>
                 <Button
                   size="sm"
                   variant="ghost"
@@ -1160,11 +1184,18 @@ export default function AdminPage() {
                               isVisited ? 'bg-slate-100 text-slate-400' :
                               isCurrent ? 'bg-emerald-50 text-emerald-700' :
                               'bg-slate-100 text-slate-500'
-                            }`}>{i + 1}</div>
+                            }`}>{pub.is_meeting_point ? <MapPin className="w-3.5 h-3.5" /> : i + 1}</div>
                             <div className="flex-1 min-w-0">
-                              <p className={`font-semibold text-sm ${isVisited ? 'line-through text-slate-400' : 'text-slate-800'}`}>
-                                {pub.name}
-                              </p>
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <p className={`font-semibold text-sm ${isVisited ? 'line-through text-slate-400' : 'text-slate-800'}`}>
+                                  {pub.name}
+                                </p>
+                                {pub.is_meeting_point && (
+                                  <span className="text-[9px] font-bold uppercase tracking-wide bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded-full shrink-0">
+                                    Meeting point
+                                  </span>
+                                )}
+                              </div>
                               <div className="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
                                 {pub.address && (
                                   <span className="flex items-center gap-0.5 min-w-0 flex-1">
@@ -1231,7 +1262,7 @@ export default function AdminPage() {
                                   className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white gap-1.5 rounded-full"
                                   onClick={() => markArrived(pub)}
                                 >
-                                  <CheckCircle className="w-4 h-4" /> Mark arrived
+                                  <CheckCircle className="w-4 h-4" /> {pub.is_meeting_point ? "Everyone's here" : 'Mark arrived'}
                                 </Button>
                               )}
                               {isCurrent && (
@@ -1241,7 +1272,7 @@ export default function AdminPage() {
                                   className="flex-1 text-indigo-600 border-indigo-200 hover:bg-indigo-50 gap-1.5 rounded-full"
                                   onClick={() => markDeparted(pub)}
                                 >
-                                  <ArrowRight className="w-4 h-4" /> Mark departed
+                                  <ArrowRight className="w-4 h-4" /> {pub.is_meeting_point ? 'Head off' : 'Mark departed'}
                                 </Button>
                               )}
                             </div>

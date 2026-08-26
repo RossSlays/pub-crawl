@@ -22,6 +22,7 @@ export interface Pub {
   lat: number | null
   lng: number | null
   order_index: number
+  is_meeting_point: boolean
   planned_dwell_minutes: number
   status: PubStatus
   planned_arrival_at: string | null

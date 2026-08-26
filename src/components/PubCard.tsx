@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Star, Clock, MapPin, ChevronDown, ChevronUp, Check, Navigation, Lock } from 'lucide-react'
+import { Star, Clock, MapPin, ChevronDown, ChevronUp, Check, Navigation, Lock, Flag } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -164,10 +164,17 @@ export default function PubCard({ pub, index, ratings, isParticipant, myRating, 
         <div className="flex items-start justify-between gap-2" onClick={() => setExpanded(e => !e)}>
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <div className={cn('w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0', numberCircleClass)}>
-              {pub.status === 'visited' ? <Check className="w-4 h-4" /> : index + 1}
+              {pub.status === 'visited' ? <Check className="w-4 h-4" /> : pub.is_meeting_point ? <Flag className="w-3.5 h-3.5" /> : index + 1}
             </div>
             <div className="min-w-0">
-              <p className={cn('font-semibold truncate', pub.status === 'current' && 'text-orange-900')}>{pub.name}</p>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <p className={cn('font-semibold truncate', pub.status === 'current' && 'text-orange-900')}>{pub.name}</p>
+                {pub.is_meeting_point && (
+                  <span className="text-[9px] font-bold uppercase tracking-wide bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-full shrink-0">
+                    Meeting point
+                  </span>
+                )}
+              </div>
               {pub.address && (
                 <p className="text-xs text-gray-500 truncate flex items-center gap-1">
                   <MapPin className="w-3 h-3 shrink-0" />{pub.address}
@@ -175,7 +182,7 @@ export default function PubCard({ pub, index, ratings, isParticipant, myRating, 
               )}
               {pub.status === 'upcoming' && (
                 <p className="text-xs text-orange-600 font-medium mt-0.5 flex items-center gap-1">
-                  <Clock className="w-3 h-3 shrink-0" />{pub.planned_dwell_minutes} min drink time
+                  <Clock className="w-3 h-3 shrink-0" />{pub.planned_dwell_minutes} min {pub.is_meeting_point ? 'here' : 'drink time'}
                 </p>
               )}
               {/* My summary pill — visible on collapsed visited cards */}
@@ -240,7 +247,7 @@ export default function PubCard({ pub, index, ratings, isParticipant, myRating, 
               </a>
             )}
 
-            {pub.status === 'current' ? (
+            {!pub.is_meeting_point && (pub.status === 'current' ? (
               <p className="text-xs text-gray-400 italic flex items-center gap-1">
                 <Clock className="w-3 h-3 shrink-0" /> Awaiting reviews — revealed once the group moves on
               </p>
@@ -262,9 +269,9 @@ export default function PubCard({ pub, index, ratings, isParticipant, myRating, 
                   </button>
                 )}
               </div>
-            )}
+            ))}
 
-            {isParticipant && (pub.status === 'current' || pub.status === 'visited') && crawlId && (
+            {!pub.is_meeting_point && isParticipant && (pub.status === 'current' || pub.status === 'visited') && crawlId && (
               <div className="space-y-2 border-t pt-3">
                 <div className="flex items-center justify-between">
                   <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Your drinks here</p>
@@ -307,7 +314,7 @@ export default function PubCard({ pub, index, ratings, isParticipant, myRating, 
               </div>
             )}
 
-            {isParticipant && (pub.status === 'current' || pub.status === 'visited') && (
+            {!pub.is_meeting_point && isParticipant && (pub.status === 'current' || pub.status === 'visited') && (
               <div className="space-y-2 border-t pt-3">
                 <div className="flex items-center justify-between">
                   <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">

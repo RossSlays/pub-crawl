@@ -14,6 +14,7 @@ function makePub(overrides: Partial<Pub> & { id: string }): Pub {
     lat: null,
     lng: null,
     order_index: 0,
+    is_meeting_point: false,
     planned_dwell_minutes: 45,
     status: 'upcoming',
     planned_arrival_at: null,

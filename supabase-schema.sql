@@ -21,6 +21,7 @@ create table if not exists pubs (
   lat numeric,
   lng numeric,
   order_index integer not null,
+  is_meeting_point boolean not null default false,  -- a start/meet address, not an actual pub — skips ratings & drink logging
   planned_dwell_minutes integer not null default 45,
   status text not null default 'upcoming' check (status in ('upcoming', 'current', 'visited')),
   planned_arrival_at timestamptz,

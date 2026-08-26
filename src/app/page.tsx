@@ -455,11 +455,12 @@ export default function HomePage() {
   // through over realtime) and someone joining late in the crawl (the count is
   // already >= 3 the moment their state loads, so it shows right away instead
   // of waiting for an arrival event that already happened).
-  const pubsCheckedIn = sortedPubs.filter(p => p.status !== 'upcoming').length
+  const realPubs = sortedPubs.filter(p => !p.is_meeting_point)
+  const pubsCheckedIn = realPubs.filter(p => p.status !== 'upcoming').length
   const showDonationModal = isParticipantLike && pubsCheckedIn >= 3
 
   const recapData: RecapData | null = crawl ? (() => {
-    const visited = sortedPubs.filter(p => p.status === 'visited' || p.status === 'current')
+    const visited = realPubs.filter(p => p.status === 'visited' || p.status === 'current')
     // Exclude the current (not-yet-departed) pub — its ratings stay hidden
     // until the group moves on, so it can't win "best rated" prematurely.
     const bestPub = visited.filter(p => p.status === 'visited').reduce<{ name: string; avg: number } | null>((best, pub) => {
@@ -473,7 +474,7 @@ export default function HomePage() {
       crawlName: crawl.name,
       date: crawl.date,
       pubsVisited: visited.length,
-      totalPubs: sortedPubs.length,
+      totalPubs: realPubs.length,
       groupDrinks,
       bestPub,
       topDrinker,
@@ -662,7 +663,7 @@ export default function HomePage() {
                 <MapIcon className="w-4 h-4" /> Map
               </TabsTrigger>
               <TabsTrigger value="list" className="flex-1 gap-1.5 data-[state=active]:bg-orange-500 data-[state=active]:text-white data-[state=active]:shadow-sm">
-                <List className="w-4 h-4" /> Pubs ({pubs.length})
+                <List className="w-4 h-4" /> Pubs ({realPubs.length})
               </TabsTrigger>
             </TabsList>
           </Tabs>
@@ -695,7 +696,7 @@ export default function HomePage() {
             {/* Stats row */}
             <div className="grid grid-cols-3 gap-2">
               {[
-                { label: 'Pubs', value: sortedPubs.filter(p => p.status === 'visited').length },
+                { label: 'Pubs', value: realPubs.filter(p => p.status === 'visited').length },
                 ...DRINK_TYPES.map(({ key, label }) => ({
                   label,
                   value: groupDrinks[key] % 1 !== 0 ? groupDrinks[key].toFixed(1) : groupDrinks[key],
@@ -713,7 +714,7 @@ export default function HomePage() {
               <div className="px-4 pt-3 pb-2 border-b border-gray-50">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Pub breakdown</p>
               </div>
-              {sortedPubs.filter(p => p.status === 'visited').map((pub, i) => {
+              {realPubs.filter(p => p.status === 'visited').map((pub, i) => {
                 const pubRatings = ratings.filter(r => r.pub_id === pub.id)
                 const avg = pubRatings.length > 0 ? pubRatings.reduce((s, r) => s + r.score, 0) / pubRatings.length : null
                 const arrival = pub.actual_arrival_at ? new Date(pub.actual_arrival_at) : null
@@ -837,10 +838,14 @@ export default function HomePage() {
                                 <div className="min-w-0 flex-1">
                                   <div className="flex items-center gap-1.5 flex-wrap">
                                     <p className="text-sm font-semibold text-gray-800 truncate">{pub.name}</p>
-                                    {isFirst && <span className="text-[10px] font-bold uppercase tracking-wide bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-full shrink-0">Start</span>}
+                                    {pub.is_meeting_point ? (
+                                      <span className="text-[10px] font-bold uppercase tracking-wide bg-violet-100 text-violet-600 px-1.5 py-0.5 rounded-full shrink-0">Meeting point</span>
+                                    ) : isFirst && (
+                                      <span className="text-[10px] font-bold uppercase tracking-wide bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-full shrink-0">Start</span>
+                                    )}
                                     {isLast && <span className="text-[10px] font-bold uppercase tracking-wide bg-rose-100 text-rose-600 px-1.5 py-0.5 rounded-full shrink-0">Finish</span>}
                                   </div>
-                                  <p className="text-xs text-orange-500 font-medium mt-0.5">{pub.planned_dwell_minutes} min drink time</p>
+                                  <p className="text-xs text-orange-500 font-medium mt-0.5">{pub.planned_dwell_minutes} min {pub.is_meeting_point ? 'here' : 'drink time'}</p>
                                   {!isLast && pub.walking_minutes_to_next && (
                                     <p className="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
                                       🚶 {pub.walking_minutes_to_next} min walk
@@ -1198,11 +1203,11 @@ export default function HomePage() {
                   </div>
 
                   {/* My pub breakdown */}
-                  {sortedPubs.filter(p => p.status === 'visited' || p.status === 'current').length > 0 && (
+                  {realPubs.filter(p => p.status === 'visited' || p.status === 'current').length > 0 && (
                     <div>
                       <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Pub by pub</p>
                       <div className="space-y-2">
-                        {sortedPubs.filter(p => p.status === 'visited' || p.status === 'current').map((pub, i) => {
+                        {realPubs.filter(p => p.status === 'visited' || p.status === 'current').map((pub, i) => {
                           const myPubDrinks = myDrinksByPub[pub.id]
                           const myRating = myRatings[pub.id]
                           const hasDrinks = myPubDrinks && hasAnyDrinks(myPubDrinks)
@@ -1285,11 +1290,11 @@ export default function HomePage() {
                   )}
 
                   {/* Pub ratings */}
-                  {sortedPubs.filter(p => p.status === 'visited' || p.status === 'current').length > 0 && (
+                  {realPubs.filter(p => p.status === 'visited' || p.status === 'current').length > 0 && (
                     <div>
                       <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Pub ratings</p>
                       <div className="space-y-2">
-                        {sortedPubs.filter(p => p.status === 'visited' || p.status === 'current').map((pub, i) => {
+                        {realPubs.filter(p => p.status === 'visited' || p.status === 'current').map((pub, i) => {
                           const pubRatings = ratings.filter(r => r.pub_id === pub.id)
                           const avg = pubRatings.length > 0 ? pubRatings.reduce((s, r) => s + r.score, 0) / pubRatings.length : null
                           return (

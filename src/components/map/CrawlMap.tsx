@@ -56,9 +56,10 @@ export default function CrawlMap({ pubs, location, leaderLocations = [], schedul
       }
 
       pubsWithCoords.forEach((pub, i) => {
-        const color = pub.status === 'visited' ? '#9ca3af' : pub.status === 'current' ? '#f97316' : '#1d4ed8'
+        const color = pub.is_meeting_point ? '#7c3aed' : pub.status === 'visited' ? '#9ca3af' : pub.status === 'current' ? '#f97316' : '#1d4ed8'
+        const label = pub.is_meeting_point ? '📍' : String(i + 1)
         const icon = L.divIcon({
-          html: `<div style="background:${color};color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;box-shadow:0 2px 4px rgba(0,0,0,0.3)">${i + 1}</div>`,
+          html: `<div style="background:${color};color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;box-shadow:0 2px 4px rgba(0,0,0,0.3)">${label}</div>`,
           className: '',
           iconSize: [28, 28],
           iconAnchor: [14, 14],
@@ -67,9 +68,12 @@ export default function CrawlMap({ pubs, location, leaderLocations = [], schedul
         const timeHtml = scheduled
           ? `<br><span style="color:#9ca3af;font-size:11px">🕐 ${scheduled.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</span>`
           : ''
+        const meetingHtml = pub.is_meeting_point
+          ? `<br><span style="color:#7c3aed;font-size:11px;font-weight:600">MEETING POINT</span>`
+          : ''
         const marker = L.marker([pub.lat!, pub.lng!], { icon })
           .addTo(map)
-          .bindPopup(`<strong>${pub.name}</strong>${pub.address ? `<br><span style="color:#6b7280;font-size:12px">${pub.address}</span>` : ''}${timeHtml}`)
+          .bindPopup(`<strong>${pub.name}</strong>${meetingHtml}${pub.address ? `<br><span style="color:#6b7280;font-size:12px">${pub.address}</span>` : ''}${timeHtml}`)
         markersRef.current.push(marker)
       })
 
