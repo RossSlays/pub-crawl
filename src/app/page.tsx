@@ -639,6 +639,19 @@ export default function HomePage() {
               <p className="text-white/70 text-sm mt-2">{crawl.name} · complete</p>
             </div>
 
+            {/* Recap card */}
+            {recapData && (
+              <button
+                onClick={() => {
+                  if (crawl?.id) fetchLeaderboard(crawl.id)
+                  setShowRecap(true)
+                }}
+                className="w-full bg-gradient-to-r from-violet-500 to-rose-500 text-white font-bold py-3 rounded-2xl text-sm"
+              >
+                Generate recap card 🎉
+              </button>
+            )}
+
             {/* Stats row */}
             <div className="grid grid-cols-3 gap-2">
               {[
@@ -713,19 +726,6 @@ export default function HomePage() {
                   </div>
                 ))}
               </div>
-            )}
-
-            {/* Recap card */}
-            {recapData && (
-              <button
-                onClick={() => {
-                  if (crawl?.id) fetchLeaderboard(crawl.id)
-                  setShowRecap(true)
-                }}
-                className="w-full bg-gradient-to-r from-violet-500 to-rose-500 text-white font-bold py-3 rounded-2xl text-sm"
-              >
-                Generate recap card 🎉
-              </button>
             )}
           </div>
         ) : (
