@@ -96,13 +96,13 @@ export default function WelcomeModal({ crawlName, subtitle }: Props) {
 
               {/* Liquid — an angled rectangle clipped by the glass's outer bounds */}
               <div
-                className="pour-liquid absolute bg-[#edaf32] border-[10px] border-[#edaf32] rounded-b-[20px]"
+                className="pour-liquid absolute bg-[#edaf32] border-[10px] border-[#edaf32] rounded-b-[20px] overflow-hidden"
                 style={{ bottom: 0, left: -40, width: 110, transform: 'rotate(15deg)', animation: `liquidFill ${POUR_DURATION_MS}ms ease-in forwards` }}
               >
                 {BUBBLES.map(({ left, delay, duration }, i) => (
                   <span
                     key={i}
-                    className="pour-bubble absolute rounded-[10px]"
+                    className="pour-bubble absolute rounded-[10px] bg-white/50"
                     style={{ left, bottom: 0, width: 20, height: 20, animation: `beerBubble ${duration}ms linear ${delay}ms infinite` }}
                   />
                 ))}
