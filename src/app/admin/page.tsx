@@ -802,6 +802,34 @@ export default function AdminPage() {
             {/* Crawl controls */}
             <Card>
               <CardContent className="pt-4 space-y-4">
+                {/* Crawl name row */}
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Beer className="w-4 h-4 text-slate-400 shrink-0" />
+                  <Label className="text-xs text-slate-600 shrink-0">Crawl name</Label>
+                  <Input
+                    value={crawlName}
+                    onChange={e => setCrawlName(e.target.value)}
+                    placeholder="Greenwich Mini Crawl"
+                    className="flex-1 min-w-[8rem] text-sm"
+                  />
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={async () => {
+                      const res = await fetch('/api/crawl', {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+                        body: JSON.stringify({ id: crawl.id, name: crawlName || 'Thames Pub Crawl' }),
+                      })
+                      const { crawl: c } = await res.json()
+                      setCrawl(c)
+                    }}
+                  >
+                    Save
+                  </Button>
+                </div>
+
                 {/* Event label row */}
                 <div className="flex items-center gap-2 flex-wrap">
                   <Sparkles className="w-4 h-4 text-slate-400 shrink-0" />
