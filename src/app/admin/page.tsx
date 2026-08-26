@@ -776,14 +776,14 @@ export default function AdminPage() {
             <Card>
               <CardContent className="pt-4 space-y-4">
                 {/* Event label row */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <Sparkles className="w-4 h-4 text-gray-400 shrink-0" />
                   <Label className="text-xs text-gray-600 shrink-0">Event label</Label>
                   <Input
                     value={eventLabel}
                     onChange={e => setEventLabel(e.target.value)}
                     placeholder="Jack's 30th Birthday"
-                    className="flex-1 text-sm"
+                    className="flex-1 min-w-[8rem] text-sm"
                   />
                   <Button
                     size="sm"
@@ -804,14 +804,14 @@ export default function AdminPage() {
                 </div>
 
                 {/* Donation link row */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <Heart className="w-4 h-4 text-gray-400 shrink-0" />
                   <Label className="text-xs text-gray-600 shrink-0">Donation link</Label>
                   <Input
                     value={donationUrl}
                     onChange={e => setDonationUrl(e.target.value)}
                     placeholder="https://..."
-                    className="flex-1 text-sm"
+                    className="flex-1 min-w-[8rem] text-sm"
                   />
                   <Button
                     size="sm"
@@ -830,8 +830,8 @@ export default function AdminPage() {
                     Save
                   </Button>
                 </div>
-                <div className="flex items-center justify-between -mt-2 ml-6">
-                  <p className="text-[10px] text-gray-400">
+                <div className="flex items-center justify-between gap-2 flex-wrap -mt-2 ml-6">
+                  <p className="text-[10px] text-gray-400 min-w-0">
                     Shown in the &quot;instead of buying Jack a pint&quot; modal, once someone&apos;s checked into their 3rd pub.
                   </p>
                   <Button
@@ -845,14 +845,14 @@ export default function AdminPage() {
                 </div>
 
                 {/* Date row */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <Clock className="w-4 h-4 text-gray-400 shrink-0" />
                   <Label className="text-xs text-gray-600 shrink-0">Date</Label>
                   <Input
                     type="date"
                     value={crawlDate}
                     onChange={e => setCrawlDate(e.target.value)}
-                    className="w-36 text-sm"
+                    className="w-36 max-w-full text-sm"
                   />
                   <Button
                     size="sm"
@@ -873,14 +873,14 @@ export default function AdminPage() {
                 </div>
 
                 {/* Start time row */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <Clock className="w-4 h-4 text-gray-400 shrink-0" />
                   <Label className="text-xs text-gray-600 shrink-0">Start time</Label>
                   <Input
                     type="time"
                     value={crawlStartTime}
                     onChange={e => setCrawlStartTime(e.target.value)}
-                    className="w-32 text-sm"
+                    className="w-32 max-w-full text-sm"
                   />
                   <Button
                     size="sm"
@@ -1157,10 +1157,10 @@ export default function AdminPage() {
                               <p className={`font-semibold text-sm ${isVisited ? 'line-through text-gray-400' : 'text-gray-800'}`}>
                                 {pub.name}
                               </p>
-                              <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-gray-500 mt-0.5">
+                              <div className="flex items-center gap-2 text-xs text-gray-500 mt-0.5">
                                 {pub.address && (
-                                  <span className="flex items-center gap-0.5 truncate">
-                                    <MapPin className="w-3 h-3 shrink-0" />{pub.address}
+                                  <span className="flex items-center gap-0.5 min-w-0 flex-1">
+                                    <MapPin className="w-3 h-3 shrink-0" /><span className="min-w-0 truncate">{pub.address}</span>
                                   </span>
                                 )}
                                 <span className="flex items-center gap-0.5 shrink-0">
