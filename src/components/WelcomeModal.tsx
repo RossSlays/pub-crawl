@@ -20,7 +20,7 @@ const POINTS = [
   {
     icon: ListChecks,
     title: 'Join in',
-    body: "Scan the QR code when you arrive at a pub to rate it and log your own drinks. Haven't scanned yet? You can still spectate.",
+    body: "Scan the QR code once to join — after that you can rate each pub and log your own drinks all night. Haven't scanned yet? You can still spectate.",
   },
   {
     icon: MapIcon,
