@@ -811,6 +811,11 @@ export default function AdminPage() {
                   <Heart className="w-4 h-4 text-gray-400 shrink-0" />
                   <Label className="text-xs text-gray-600 shrink-0">Donation link</Label>
                   <Input
+                    type="url"
+                    inputMode="url"
+                    autoCapitalize="off"
+                    autoCorrect="off"
+                    spellCheck={false}
                     value={donationUrl}
                     onChange={e => setDonationUrl(e.target.value)}
                     placeholder="https://..."
