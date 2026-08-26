@@ -1,4 +1,4 @@
-const CACHE = 'pub-crawl-v1'
+const CACHE = 'pub-crawl-v2'
 
 self.addEventListener('install', e => {
   self.skipWaiting()
