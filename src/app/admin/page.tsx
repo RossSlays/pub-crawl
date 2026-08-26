@@ -408,8 +408,11 @@ export default function AdminPage() {
     }
 
     setAdminKey(key)
-    setReady(true)
-    if (key) load(key)
+    if (key) {
+      load(key).finally(() => setReady(true))
+    } else {
+      setReady(true)
+    }
     fetch('/api/host').then(r => r.json()).then(d => { if (d.host) setNetworkHost(d.host) })
   }, [load])
 
