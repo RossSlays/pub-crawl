@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useEffect, useState } from 'react'
-import { DRINK_TYPES, totalDrinks } from '@/lib/drinks'
+import { totalDrinks } from '@/lib/drinks'
 import type { DrinkTotals } from '@/lib/types'
 
 export interface RecapData {
@@ -14,14 +14,6 @@ export interface RecapData {
   topDrinker: { name: string; total: number } | null
   myDrinks?: DrinkTotals
   participantName?: string | null
-}
-
-const CANVAS_DRINK_LABELS: Record<string, string> = {
-  beers: 'BEERS',
-  wine: 'WINE',
-  cocktails: 'COCKTAILS',
-  shots: 'SHOTS',
-  soft_drinks: 'SOFTS',
 }
 
 interface Props {
@@ -74,7 +66,7 @@ export default function RecapCard({ data, onClose }: Props) {
           <canvas
             ref={canvasRef}
             className="w-full rounded-2xl shadow-2xl"
-            style={{ display: 'block', aspectRatio: '9/16' }}
+            style={{ display: 'block', aspectRatio: '4/5' }}
           />
         </div>
 
@@ -100,7 +92,7 @@ export default function RecapCard({ data, onClose }: Props) {
 // ─── Canvas drawing ────────────────────────────────────────────────────────────
 
 const W = 1080
-const H = 1920
+const H = 1350
 const FONT = '-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif'
 
 function drawCard(canvas: HTMLCanvasElement, d: RecapData) {
@@ -118,7 +110,7 @@ function drawCard(canvas: HTMLCanvasElement, d: RecapData) {
 
   // Subtle glow orbs
   glow(ctx, W * 0.85, H * 0.12, 420, 'rgba(139, 92, 246, 0.18)')
-  glow(ctx, W * 0.15, H * 0.72, 320, 'rgba(225, 29, 72, 0.15)')
+  glow(ctx, W * 0.15, H * 0.85, 320, 'rgba(225, 29, 72, 0.15)')
 
   // ── Header ──────────────────────────────────────────────────────────────────
   ctx.textAlign = 'center'
@@ -142,53 +134,10 @@ function drawCard(canvas: HTMLCanvasElement, d: RecapData) {
   ctx.lineWidth = 2
   ctx.beginPath(); ctx.moveTo(100, 420); ctx.lineTo(W - 100, 420); ctx.stroke()
 
-  // ── Big stats row ────────────────────────────────────────────────────────────
-  bigStat(ctx, W / 4, 570, `${d.pubsVisited}/${d.totalPubs}`, 'PUBS', '📍')
-  bigStat(ctx, (W * 3) / 4, 570, String(totalDrinks(d.groupDrinks)), 'DRINKS', '🍻')
-
-  // ── Drink breakdown tiles — 3 on top row, 2 on the row below ─────────────────
-  const tileY = 790
-  const tileRowH = 220
-  const tileGap = 24
-  const row1 = DRINK_TYPES.slice(0, 3)
-  const row2 = DRINK_TYPES.slice(3)
-  drawDrinkTileRow(ctx, row1.map(({ key, emoji }) => ({ emoji, label: CANVAS_DRINK_LABELS[key], val: d.groupDrinks[key] })), tileY)
-  drawDrinkTileRow(ctx, row2.map(({ key, emoji }) => ({ emoji, label: CANVAS_DRINK_LABELS[key], val: d.groupDrinks[key] })), tileY + tileRowH + tileGap)
-
-  // ── Best pub ─────────────────────────────────────────────────────────────────
-  let nextY = tileY + tileRowH * 2 + tileGap + 70
-  if (d.bestPub) {
-    infoRow(ctx, nextY, '⭐', 'BEST RATED PUB', d.bestPub.name, `${d.bestPub.avg.toFixed(1)} ★`)
-    nextY += 220
-  }
-
-  // ── Top drinker ───────────────────────────────────────────────────────────────
-  if (d.topDrinker) {
-    infoRow(ctx, nextY, '🏆', 'TOP DRINKER', d.topDrinker.name, `${d.topDrinker.total} drinks`)
-    nextY += 220
-  }
-
-  // ── Personal stats ────────────────────────────────────────────────────────────
-  if (d.participantName && d.myDrinks) {
-    const psY = nextY + 20
-    const grad = ctx.createLinearGradient(60, psY, W - 60, psY + 210)
-    grad.addColorStop(0, 'rgba(124,58,237,0.28)')
-    grad.addColorStop(1, 'rgba(225,29,72,0.28)')
-    tile(ctx, 60, psY, W - 120, 210, grad)
-
-    text(ctx, `${d.participantName.toUpperCase()}'S NIGHT`, W / 2, psY + 66, {
-      font: `700 38px ${FONT}`,
-      fill: 'rgba(255,255,255,0.55)',
-    })
-
-    const parts = DRINK_TYPES.filter(({ key }) => d.myDrinks![key] > 0).map(({ key, emoji }) => `${emoji} ${d.myDrinks![key]}`)
-    const partsFontSize = parts.length >= 4 ? 44 : 54
-
-    text(ctx, parts.length ? parts.join('   ') : 'Nothing logged', W / 2, psY + 154, {
-      font: `700 ${partsFontSize}px ${FONT}`,
-      fill: '#fff',
-    })
-  }
+  // ── Big stats row — centered in the remaining space ───────────────────────────
+  const statsY = 420 + (H - 100 - 420) / 2
+  bigStat(ctx, W / 4, statsY, `${d.pubsVisited}/${d.totalPubs}`, 'PUBS', '📍')
+  bigStat(ctx, (W * 3) / 4, statsY, String(totalDrinks(d.groupDrinks)), 'DRINKS', '🍻')
 
   // ── Footer ────────────────────────────────────────────────────────────────────
   text(ctx, 'pub crawl app', W / 2, H - 70, {
@@ -222,38 +171,6 @@ function glow(ctx: CanvasRenderingContext2D, x: number, y: number, r: number, co
   ctx.fill()
 }
 
-function tile(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  fill: string | CanvasGradient
-) {
-  ctx.beginPath()
-  ctx.roundRect(x, y, w, h, 28)
-  ctx.fillStyle = fill
-  ctx.fill()
-}
-
-function drawDrinkTileRow(
-  ctx: CanvasRenderingContext2D,
-  items: { emoji: string; label: string; val: number }[],
-  y: number
-) {
-  const totalW = W - 80
-  const gap = 16
-  const tileW = (totalW - gap * (items.length - 1)) / items.length
-  items.forEach(({ emoji, label, val }, i) => {
-    const tx = 40 + (tileW + gap) * i
-    tile(ctx, tx, y, tileW, 220, 'rgba(255,255,255,0.07)')
-    const cx = tx + tileW / 2
-    text(ctx, emoji, cx, y + 76, { font: `54px serif`, fill: '#fff' })
-    text(ctx, String(val), cx, y + 164, { font: `900 72px ${FONT}`, fill: '#fff' })
-    text(ctx, label, cx, y + 210, { font: `500 34px ${FONT}`, fill: 'rgba(255,255,255,0.45)' })
-  })
-}
-
 function bigStat(
   ctx: CanvasRenderingContext2D,
   cx: number,
@@ -265,46 +182,6 @@ function bigStat(
   text(ctx, emoji, cx, cy - 60, { font: `64px serif`, fill: '#fff' })
   text(ctx, value, cx, cy + 60, { font: `900 108px ${FONT}`, fill: '#fff' })
   text(ctx, label, cx, cy + 118, { font: `500 40px ${FONT}`, fill: 'rgba(255,255,255,0.45)' })
-}
-
-function infoRow(
-  ctx: CanvasRenderingContext2D,
-  y: number,
-  emoji: string,
-  label: string,
-  name: string,
-  aside: string
-) {
-  tile(ctx, 60, y, W - 120, 190, 'rgba(255,255,255,0.07)')
-
-  // Emoji
-  ctx.font = `58px serif`
-  ctx.fillStyle = '#fff'
-  ctx.textAlign = 'left'
-  ctx.fillText(emoji, 108, y + 118)
-
-  // Label
-  ctx.font = `500 36px ${FONT}`
-  ctx.fillStyle = 'rgba(255,255,255,0.5)'
-  ctx.fillText(label, 196, y + 78)
-
-  // Name — truncate if needed
-  ctx.font = `700 56px ${FONT}`
-  ctx.fillStyle = '#fff'
-  const maxW = W - 340
-  let nameStr = name
-  while (ctx.measureText(nameStr).width > maxW && nameStr.length > 3) {
-    nameStr = nameStr.slice(0, -1)
-  }
-  if (nameStr !== name) nameStr = nameStr.trim() + '…'
-  ctx.fillText(nameStr, 196, y + 150)
-
-  // Aside (right-aligned)
-  ctx.font = `500 40px ${FONT}`
-  ctx.fillStyle = 'rgba(255,255,255,0.5)'
-  ctx.textAlign = 'right'
-  ctx.fillText(aside, W - 108, y + 120)
-  ctx.textAlign = 'center'
 }
 
 function formatDate(dateStr: string): string {
