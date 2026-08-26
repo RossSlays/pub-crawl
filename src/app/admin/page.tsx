@@ -1134,7 +1134,7 @@ export default function AdminPage() {
                           isVisited ? 'bg-gray-200' :
                           'bg-blue-200'
                         }`} />
-                        <div className="flex-1 p-3">
+                        <div className="flex-1 min-w-0 p-3">
                           <div className="flex items-start gap-2">
                             {isDraggable ? (
                               <button
