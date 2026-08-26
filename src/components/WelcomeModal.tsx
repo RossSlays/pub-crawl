@@ -29,7 +29,27 @@ const POINTS = [
   },
 ]
 
-const POUR_DURATION_MS = 1400
+const POUR_DURATION_MS = 3900
+
+// Foam blobs — offsets relative to the rising foam cluster's own anchor point.
+const FOAM_BLOBS = [
+  { top: -30, left: -10 },
+  { top: -35, left: 20 },
+  { top: -25, left: 50 },
+  { top: -35, left: 80 },
+  { top: -30, left: 110 },
+  { top: -20, left: 140 },
+  { top: -30, left: 160 },
+]
+
+// Bubbles rising inside the liquid — each loops on its own delay/duration.
+const BUBBLES = [
+  { left: 10, delay: 1000, duration: 1000 },
+  { left: 50, delay: 700, duration: 1100 },
+  { left: 100, delay: 1200, duration: 1300 },
+  { left: 130, delay: 1100, duration: 700 },
+  { left: 170, delay: 1300, duration: 800 },
+]
 
 export default function WelcomeModal({ crawlName, subtitle }: Props) {
   const [show, setShow] = useState(false)
@@ -52,34 +72,42 @@ export default function WelcomeModal({ crawlName, subtitle }: Props) {
   return (
     <div className="fixed inset-0 z-[5000] bg-gradient-to-b from-orange-500 to-rose-500 overflow-y-auto">
       {pouring ? (
-        <div className="min-h-full flex flex-col items-center justify-center gap-5 px-6">
-          <div className="relative w-20 h-28">
-            {/* Glass outline (trapezoid — narrower base) */}
+        <div className="min-h-full flex flex-col items-center justify-center gap-4 px-6">
+          <div className="relative overflow-hidden" style={{ width: 248, height: 370, top: -20 }}>
+            {/* Pour stream, falls from above and retracts once the glass is full */}
             <div
-              className="absolute inset-0 border-[3px] border-white/85"
-              style={{ clipPath: 'polygon(18% 0%, 82% 0%, 100% 100%, 0% 100%)' }}
+              className="pour-stream absolute bg-[#edaf32] rounded-[10px]"
+              style={{ left: '45%', top: 0, width: 20, animation: `pourStream ${POUR_DURATION_MS}ms ease-in-out forwards` }}
             />
-            {/* Beer fill, animates up from the base */}
-            <div
-              className="beer-fill absolute bottom-0 left-0 right-0 bg-gradient-to-t from-amber-600 to-amber-300"
-              style={{
-                clipPath: 'polygon(18% 0%, 82% 0%, 100% 100%, 0% 100%)',
-                animation: `beerFill ${POUR_DURATION_MS - 200}ms cubic-bezier(0.22,1,0.36,1) forwards`,
-              }}
-            >
-              {/* Rising bubbles */}
-              <span className="beer-bubble absolute left-[30%] bottom-2 w-1 h-1 rounded-full bg-white/70" style={{ animation: 'beerBubbleRise 1.1s ease-in 200ms infinite' }} />
-              <span className="beer-bubble absolute left-[55%] bottom-2 w-1.5 h-1.5 rounded-full bg-white/60" style={{ animation: 'beerBubbleRise 1.3s ease-in 450ms infinite' }} />
-              <span className="beer-bubble absolute left-[45%] bottom-2 w-1 h-1 rounded-full bg-white/70" style={{ animation: 'beerBubbleRise 1s ease-in 700ms infinite' }} />
+            {/* Glass */}
+            <div className="absolute border-[10px] border-white border-t-0 rounded-b-[30px]" style={{ height: 200, width: 200, left: 14, bottom: 0 }}>
+              <div className="absolute border-[10px] border-white border-b-0 rounded-t-[30px]" style={{ height: 30, width: 30, top: -40, left: -50 }} />
+              <div className="absolute border-[10px] border-white border-b-0 rounded-t-[30px]" style={{ height: 30, width: 30, top: -40, right: -50 }} />
+
+              {/* Foam cluster — rises as the glass fills */}
+              <div
+                className="pour-foam absolute"
+                style={{ bottom: 10, animation: `foamRise ${POUR_DURATION_MS}ms ease-out forwards` }}
+              >
+                {FOAM_BLOBS.map(({ top, left }, i) => (
+                  <div key={i} className="absolute bg-[#fefefe] rounded-[30px] z-10" style={{ width: 50, height: 50, top, left }} />
+                ))}
+              </div>
+
+              {/* Liquid — an angled rectangle clipped by the glass's outer bounds */}
+              <div
+                className="pour-liquid absolute bg-[#edaf32] border-[10px] border-[#edaf32] rounded-b-[20px]"
+                style={{ bottom: 0, left: -40, width: 110, transform: 'rotate(15deg)', animation: `liquidFill ${POUR_DURATION_MS}ms ease-in forwards` }}
+              >
+                {BUBBLES.map(({ left, delay, duration }, i) => (
+                  <span
+                    key={i}
+                    className="pour-bubble absolute rounded-[10px]"
+                    style={{ left, bottom: 0, width: 20, height: 20, animation: `beerBubble ${duration}ms linear ${delay}ms infinite` }}
+                  />
+                ))}
+              </div>
             </div>
-            {/* Foam cap, settles in once it's nearly full */}
-            <div
-              className="beer-foam absolute left-1/2 w-[78%] h-3.5 rounded-full bg-white"
-              style={{
-                bottom: 'calc(84% - 7px)',
-                animation: `beerFoamIn ${POUR_DURATION_MS - 100}ms ease-out forwards`,
-              }}
-            />
           </div>
           <p className="text-white font-bold text-sm tracking-wide uppercase">Pouring your pint…</p>
         </div>
