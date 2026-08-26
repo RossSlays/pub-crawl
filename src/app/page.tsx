@@ -480,16 +480,25 @@ export default function HomePage() {
     return calculateScheduleFixed([...pubs].sort((a, b) => a.order_index - b.order_index), startDate)
   }, [crawl?.start_time, crawl?.date, pubs])
 
+  // If we're running over the planned dwell time at the current pub, the DB's
+  // planned_arrival_at for later pubs is still whatever it was calculated as
+  // on arrival — it only gets recalculated once we actually depart. Without
+  // this, upcoming ETAs sit frozen and visibly wrong for however long we
+  // overrun. Shift them live instead, purely for display; the real cascade
+  // recalculation still happens for real once the pub is marked departed.
+  const overtimeMs = currentPub && dwellMs !== null && dwellMs < 0 ? -dwellMs : 0
+
   // Prefer DB planned_arrival_at (kept fresh by server-side refreshETAs on each
   // departure) over the static schedule fallback.
   const effectiveSchedule: Map<string, Date> = useMemo(() => {
     const m = new Map<string, Date>()
     for (const pub of sortedPubs) {
       const t = pub.planned_arrival_at ? new Date(pub.planned_arrival_at) : scheduledTimes.get(pub.id)
-      if (t) m.set(pub.id, t)
+      if (!t) continue
+      m.set(pub.id, pub.status === 'upcoming' && overtimeMs > 0 ? new Date(t.getTime() + overtimeMs) : t)
     }
     return m
-  }, [sortedPubs, scheduledTimes])
+  }, [sortedPubs, scheduledTimes, overtimeMs])
 
   if (loading) {
     return (
