@@ -80,7 +80,7 @@ export default function HomePage() {
   const [groupDrinks, setGroupDrinks] = useState<DrinkTotals>(EMPTY_DRINK_TOTALS)
   const [myDrinks, setMyDrinks] = useState<DrinkTotals>(EMPTY_DRINK_TOTALS)
   const [myDrinksByPub, setMyDrinksByPub] = useState<Record<string, DrinkTotals>>({})
-  const [leaderboard, setLeaderboard] = useState<{ name: string; beers: number; wine: number; cocktails: number; shots: number; soft_drinks: number; total: number }[]>([])
+  const [leaderboard, setLeaderboard] = useState<{ name: string; beers: number; wine: number; cocktails: number; shots: number; soft_drinks: number; total: number; points: number }[]>([])
   const [showStats, setShowStats] = useState(false)
   const [statsTab, setStatsTab] = useState<'my' | 'group'>('group')
   const [showRecap, setShowRecap] = useState(false)
@@ -720,8 +720,8 @@ export default function HomePage() {
                       </p>
                     </div>
                     <div className="shrink-0">
-                      <span className="text-sm font-black text-gray-900">{entry.total}</span>
-                      <span className="text-xs text-gray-400 ml-0.5">drinks</span>
+                      <span className="text-sm font-black text-gray-900">{entry.points}</span>
+                      <span className="text-xs text-gray-400 ml-0.5">pts</span>
                     </div>
                   </div>
                 ))}

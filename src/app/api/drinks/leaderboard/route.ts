@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import { totalPoints } from '@/lib/drinks'
 
 export async function GET(req: Request) {
   const db = supabaseAdmin()
@@ -16,13 +17,13 @@ export async function GET(req: Request) {
 
   const nameMap = new Map((participants ?? []).map(p => [p.token, p.name]))
 
-  const totals = new Map<string, { name: string; beers: number; wine: number; cocktails: number; shots: number; soft_drinks: number; total: number }>()
+  const totals = new Map<string, { name: string; beers: number; wine: number; cocktails: number; shots: number; soft_drinks: number; total: number; points: number }>()
 
   for (const d of drinks) {
     const token = d.participant_token
     if (!token) continue
     if (!totals.has(token)) {
-      totals.set(token, { name: nameMap.get(token) ?? 'Unknown', beers: 0, wine: 0, cocktails: 0, shots: 0, soft_drinks: 0, total: 0 })
+      totals.set(token, { name: nameMap.get(token) ?? 'Unknown', beers: 0, wine: 0, cocktails: 0, shots: 0, soft_drinks: 0, total: 0, points: 0 })
     }
     const entry = totals.get(token)!
     entry.beers += d.beers ?? 0
@@ -33,6 +34,9 @@ export async function GET(req: Request) {
     entry.total += (d.beers ?? 0) + (d.wine ?? 0) + (d.cocktails ?? 0) + (d.shots ?? 0) + (d.soft_drinks ?? 0)
   }
 
-  const leaderboard = Array.from(totals.values()).sort((a, b) => b.total - a.total)
+  // Rank by weighted points (soft drinks score 0) so they can't inflate rank —
+  // ties broken by raw drink count.
+  for (const entry of totals.values()) entry.points = totalPoints(entry)
+  const leaderboard = Array.from(totals.values()).sort((a, b) => b.points - a.points || b.total - a.total)
   return NextResponse.json({ leaderboard })
 }
