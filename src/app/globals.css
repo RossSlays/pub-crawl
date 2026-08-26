@@ -55,3 +55,25 @@
   from { opacity: 0; transform: translateY(-16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes beerFill {
+  from { height: 0%; }
+  to   { height: 84%; }
+}
+
+@keyframes beerFoamIn {
+  0%, 65% { opacity: 0; transform: translate(-50%, 4px) scale(0.85); }
+  100%    { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+@keyframes beerBubbleRise {
+  0%   { transform: translateY(0) scale(0.6); opacity: 0; }
+  15%  { opacity: 1; }
+  100% { transform: translateY(-64px) scale(1); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beer-fill, .beer-foam, .beer-bubble { animation: none !important; }
+  .beer-fill { height: 84% !important; }
+  .beer-foam { opacity: 1 !important; transform: translate(-50%, 0) scale(1) !important; }
+}
