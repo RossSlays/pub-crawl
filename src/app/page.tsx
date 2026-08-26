@@ -714,6 +714,19 @@ export default function HomePage() {
                 ))}
               </div>
             )}
+
+            {/* Recap card */}
+            {recapData && (
+              <button
+                onClick={() => {
+                  if (crawl?.id) fetchLeaderboard(crawl.id)
+                  setShowRecap(true)
+                }}
+                className="w-full bg-gradient-to-r from-violet-500 to-rose-500 text-white font-bold py-3 rounded-2xl text-sm"
+              >
+                Generate recap card 🎉
+              </button>
+            )}
           </div>
         ) : (
           <>
