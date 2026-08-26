@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useEffect, useState } from 'react'
-import { totalDrinks } from '@/lib/drinks'
+import { DRINK_TYPES, totalDrinks } from '@/lib/drinks'
 import type { DrinkTotals } from '@/lib/types'
 
 export interface RecapData {
@@ -143,6 +143,16 @@ function drawCard(canvas: HTMLCanvasElement, d: RecapData) {
   const statsY = 420 + (H - 100 - 420) / 2
   bigStat(ctx, W / 4, statsY, `${d.pubsVisited}/${d.totalPubs}`, 'PUBS', '📍')
   bigStat(ctx, (W * 3) / 4, statsY, String(drinksTotal), drinksLabel, '🍻')
+
+  // ── Drink breakdown — only the types actually logged, under the drinks stat ───
+  const drinksSource = d.myDrinks ?? d.groupDrinks
+  const breakdown = DRINK_TYPES.filter(({ key }) => drinksSource[key] > 0)
+    .map(({ key, emoji }) => `${emoji} ${drinksSource[key]}`)
+    .join('   ')
+  if (breakdown) {
+    const breakdownSize = breakdown.length > 28 ? 28 : 34
+    text(ctx, breakdown, W / 2, statsY + 178, { font: `700 ${breakdownSize}px ${FONT}`, fill: 'rgba(255,255,255,0.6)' })
+  }
 
   // ── Footer ────────────────────────────────────────────────────────────────────
   text(ctx, 'pub crawl app', W / 2, H - 70, {
