@@ -87,6 +87,7 @@ export default function HomePage() {
   const [weather, setWeather] = useState<{ temp: number; emoji: string } | null>(null)
   const [participantCount, setParticipantCount] = useState<number | null>(null)
   const [showParticipants, setShowParticipants] = useState(false)
+  const [showLeaderboard, setShowLeaderboard] = useState(false)
   const [participantNames, setParticipantNames] = useState<string[] | null>(null)
   const [broadcast, setBroadcast] = useState<{ message: string } | null>(null)
   const broadcastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -581,6 +582,17 @@ export default function HomePage() {
                       👥 {participantCount} {participantCount === 1 ? 'person' : 'people'}
                     </button>
                   )}
+                  {crawl?.status === 'active' && (
+                    <button
+                      onClick={() => {
+                        if (crawl?.id) fetchLeaderboard(crawl.id)
+                        setShowLeaderboard(true)
+                      }}
+                      className="bg-white/15 hover:bg-white/25 transition-colors text-white text-xs font-medium px-2 py-0.5 rounded-full"
+                    >
+                      🏆 Leaderboard
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -706,7 +718,10 @@ export default function HomePage() {
             {leaderboard.length > 0 && (
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="px-4 pt-3 pb-2 border-b border-gray-50">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Drink leaderboard</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-1">Drink leaderboard</p>
+                  <p className="text-[11px] text-gray-400 leading-relaxed">
+                    Ranked by points — 🍺🍸 2pts, 🍷🥃 1pt, 🧃 0pts.
+                  </p>
                 </div>
                 {leaderboard.map((entry, i) => (
                   <div key={entry.name} className="flex items-center gap-3 px-4 py-3 border-b border-gray-50 last:border-0">
@@ -1035,6 +1050,57 @@ export default function HomePage() {
         </div>
       )}
 
+      {/* Leaderboard modal */}
+      {showLeaderboard && (
+        <div
+          className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm px-5"
+          onClick={e => { if (e.target === e.currentTarget) setShowLeaderboard(false) }}
+        >
+          <div className="w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[80vh] flex flex-col">
+            <div className="bg-gradient-to-r from-orange-500 to-rose-500 px-6 py-5 text-center shrink-0">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/70 mb-1">Right now</p>
+              <p className="font-black text-2xl text-white leading-tight">🏆 Leaderboard</p>
+            </div>
+            <div className="px-6 pt-4 pb-1 shrink-0">
+              <p className="text-[11px] text-gray-400 leading-relaxed text-center">
+                Ranked by points, not raw drink count — 🍺 pints & 🍸 cocktails are 2pts, 🍷 wine & 🥃 shots are 1pt, 🧃 soft drinks don&apos;t count.
+              </p>
+            </div>
+            <div className="overflow-y-auto px-6 py-4 space-y-2">
+              {leaderboard.length === 0 ? (
+                <p className="text-center text-sm text-gray-400 py-4">No drinks logged yet.</p>
+              ) : (
+                leaderboard.map((entry, i) => (
+                  <div key={entry.name} className="flex items-center gap-3 bg-gray-50 rounded-xl px-3.5 py-2.5">
+                    <span className={`text-sm font-black w-6 shrink-0 text-center ${i === 0 ? '' : i === 1 ? 'text-gray-400' : i === 2 ? 'text-orange-700' : 'text-gray-300'}`}>
+                      {i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-gray-800 truncate">{entry.name}</p>
+                      <p className="text-xs text-gray-400">
+                        {DRINK_TYPES.filter(({ key }) => entry[key] > 0).map(({ key, emoji }) => `${emoji} ${entry[key]}`).join(' · ') || 'Nothing logged'}
+                      </p>
+                    </div>
+                    <div className="shrink-0 text-right">
+                      <span className="text-sm font-black text-gray-900">{entry.points}</span>
+                      <span className="text-xs text-gray-400 ml-0.5">pts</span>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+            <div className="px-6 pb-5 pt-1 shrink-0">
+              <button
+                onClick={() => setShowLeaderboard(false)}
+                className="w-full text-sm text-gray-400 hover:text-gray-600 transition-colors py-2"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Stats modal */}
       {showStats && (
         <div
@@ -1160,7 +1226,10 @@ export default function HomePage() {
                   {/* Leaderboard */}
                   {leaderboard.length > 0 && (
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Drinks leaderboard</p>
+                      <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-1">Drinks leaderboard</p>
+                      <p className="text-[11px] text-gray-400 leading-relaxed mb-3">
+                        Ranked by points — 🍺🍸 2pts, 🍷🥃 1pt, 🧃 0pts.
+                      </p>
                       <div className="space-y-2">
                         {leaderboard.map((entry, i) => (
                           <div key={entry.name} className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
@@ -1173,6 +1242,7 @@ export default function HomePage() {
                                 <span key={key}>{emoji}{entry[key]}</span>
                               ))}
                             </div>
+                            <span className="text-xs font-bold text-gray-400 shrink-0">{entry.points}pts</span>
                           </div>
                         ))}
                       </div>
