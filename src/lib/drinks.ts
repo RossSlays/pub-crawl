@@ -1,7 +1,7 @@
 import type { DrinkTotals } from './types'
 
 export const DRINK_TYPES: { key: keyof DrinkTotals; emoji: string; label: string; step: number }[] = [
-  { key: 'beers', emoji: '🍺', label: 'Drinks', step: 0.5 },
+  { key: 'beers', emoji: '🍺', label: 'Pints', step: 0.5 },
   { key: 'wine', emoji: '🍷', label: 'Wine', step: 0.5 },
   { key: 'cocktails', emoji: '🍸', label: 'Cocktails', step: 1 },
   { key: 'shots', emoji: '🥃', label: 'Shots', step: 1 },
